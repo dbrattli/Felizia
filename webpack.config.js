@@ -22,40 +22,21 @@ var CONFIG = {
     // When using webpack-dev-server, you may need to redirect some calls
     // to a external API server. See https://webpack.js.org/configuration/dev-server/#devserver-proxy
     devServerProxy: {
-        // redirect requests that start with /api/* to the server on port 8080
-
-        '/': {
+        '**': {
             target: 'http://localhost:' + (process.env.SERVER_PROXY_PORT || "8080"),
                changeOrigin: true
-           },
-        '/api/*': {
-            target: 'http://localhost:' + (process.env.SERVER_PROXY_PORT || "8080"),
-               changeOrigin: true
-           },
-        '/activity/*': {
-            target: 'http://localhost:' + (process.env.SERVER_PROXY_PORT || "8080"),
-               changeOrigin: true
-           },
-        '/page/*': {
-            target: 'http://localhost:' + (process.env.SERVER_PROXY_PORT || "8080"),
-               changeOrigin: true
-           },
-        '/ws': {
-            target: 'ws://localhost:' + (process.env.SERVER_PROXY_PORT || "8080"),
-            secure: false,
-            ws: true,
-          }
+           }
     },
     // Use babel-preset-env to generate JS compatible with most-used browsers.
     // More info at https://babeljs.io/docs/en/next/babel-preset-env.html
     babel: {
         presets: [
-            ["@babel/preset-env", {
-                "targets": "> 0.25%, not dead",
-                "modules": false,
+            ['@babel/preset-env', {
+                modules: false,
                 // This adds polyfills when needed. Requires core-js dependency.
                 // See https://babeljs.io/docs/en/babel-preset-env#usebuiltins
-                "useBuiltIns": "usage",
+                useBuiltIns: 'usage',
+                corejs: 3
             }]
         ],
     }

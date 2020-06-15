@@ -17,3 +17,4 @@ deploy
 src/Shared/markdown/activities/Images
 .DS_Store
 src/Client/public/gen
+symbolCache.db

@@ -110,7 +110,7 @@ Target.create "Bundle" (fun _ ->
 )
 
 let dockerUser = "dbrattli"
-let dockerImageName = "camp-brattli"
+let dockerImageName = "felizia"
 let dockerFullName = sprintf "%s/%s" dockerUser dockerImageName
 
 Target.create "Docker" (fun _ ->

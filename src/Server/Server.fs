@@ -1,101 +1,117 @@
 open System
 open System.IO
 
-open Microsoft.AspNetCore
 open Microsoft.AspNetCore.Builder
+open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
+open Microsoft.Extensions.FileProviders
 
-open Reaction.AspNetCore.Middleware
-open FSharp.Control
-open FSharp.Control.Tasks.V2
+open FSharp.Core.Printf
 open Giraffe
 open Serilog
 open Serilog.Events
-open Thoth.Json.Net
-open Thoth.Json.Giraffe
 
-open Shared
-open Shared.Model
-open Shared.Json
+open Felizia
+open Felizia.Generate
+open Felizia.Yaml
+open Felizia.Model
+open Felizia.Common
+open Giraffe.SerilogExtensions
+open Microsoft.AspNetCore
 
-open ServerCode
-open ServerCode.Pages
-open Giraffe.Serialization
 
 let publicPath = Path.GetFullPath "../Client/public"
+let staticPath = Path.GetFullPath "../../static"
 
 let port = 8080us
+let configPath = Path.GetFullPath "../../"
+let i18nPath = Path.GetFullPath "../../i18n/"
+
+let sites =
+    parseSiteConfig configPath
+    // Split site from config into one site for every translation
+    |> (fun site ->
+        site.AllTranslations
+        |> Seq.map (fun lang ->
+            let trans = parseI18n i18nPath lang.Lang
+            let site' = { site with I18n = trans }
+
+            processContent markdownPath htmlPath [] site' lang.Lang)
+     )
+     |> List.ofSeq
+
+let model = { Model.Empty with Sites=sites }
 
 let webApp =
     choose [
-        GET >=> choose [
-            route PageUrls.Home
+        let content site lang = choose [
+            let model = { model with CurrentSite = site; Language = lang }
 
-            routeStartsWith PageUrls.Activity
-
-            routeStartsWith PageUrls.Page
-
-            routef "%s" (fun x -> redirectTo false "/")
+            routex "(/?)" >=> Content.page model []
+            routef "/%s" (fun page -> Content.page model [ page ])
+            routef "/%s/" (fun page -> Content.page model [ page ])
+            routef "/%s/%i" (fun (paginationPath, pageNumber) -> Content.paged model paginationPath pageNumber [])
+            routef "/%s/%s" (fun (section, page) -> Content.page model [ section; page ])
+            routef "/%s/%s/" (fun (section, page) -> Content.page model [ section; page ])
+            routef "/%s/%s/%i" (fun (section, paginationPath, pageNumber) -> Content.paged model paginationPath pageNumber [ section ])
+            routef "/%s/%s/%s" (fun (section, subsection, page) -> Content.page model [ section; subsection; page ])
+            routef "/%s/%s/%s/" (fun (section, subsection, page) -> Content.page model [ section; subsection; page ])
+            routef "/%s/%s/%s/%i" (fun (section, subsection, paginationPath, pageNumber) -> Content.paged model paginationPath pageNumber [ section; subsection ])
         ]
-        POST >=>
-            route "/api/msg" >=>
-                fun next ctx ->
-                    task {
-                        let! msg = ctx.BindModelAsync<Msg> ()
-                        let! msg' = handlePage msg
-                        match msg' with
-                        | Some msg ->
-                            return! json msg next ctx
-                        | None ->
-                            return! Successful.NO_CONTENT next ctx
-                    }
+
+        // Add site for each specific language, i.e '/nb', '/en'
+        for site in sites do
+            let basePath = Uri site.BaseUrl
+            printfn "basePath: %A" basePath.AbsolutePath
+            subRoute (basePath.AbsolutePath +/ site.Language.BaseUrl) (content site (site.Language.Lang))
+
+        // Add site for default language , i.e ''
+        let defaultSite = sites |> List.find (fun site -> site.Language.Lang = site.DefaultContentLanguage)
+        content defaultSite defaultSite.DefaultContentLanguage
+
+        //route "" >=> redirectTo false "/"
+        RequestErrors.NOT_FOUND "Not Found"
     ]
 
-let stream (connectionId: ConnectionId) (msgs: IAsyncObservable<Msg*ConnectionId>) : IAsyncObservable<Msg*ConnectionId> =
-    msgs
-    |> AsyncRx.filter (fun (msg, id) -> id = connectionId)
-    //|> AsyncRx.tapOnNext (printfn "Server got: %A")
-    //|> AsyncRx.chooseAsync handlePage
-    //|> AsyncRx.tapOnNext (printfn "Server sent: %A")
+type CustomNegotiationConfig (baseConfig : INegotiationConfig) =
+    interface INegotiationConfig with
 
-let decoder (input: string) : Msg option =
-    let ret = Decode.fromString Msg.Decoder input
-    match ret with
-    | Error _ -> None
-    | Ok value -> Some value
+        member __.UnacceptableHandler = baseConfig.UnacceptableHandler
+        member __.Rules =
+                dict [
+                    "application/json", Content.json
+                    "text/html"       , Content.html
+                    "*/*"             , Content.html
+                ]
 
 let configureApp (app : IApplicationBuilder) =
-    app.UseWebSockets()
-       .UseStream<Msg>(fun options ->
-       { options with
-           Stream = stream
-           Encode = (fun msg -> Encode.toString 0 (Msg.Encoder msg))
-           Decode = decoder
-       })
-       .UseHttpsRedirection()
+    let options =
+        let path = Path.Combine(Directory.GetCurrentDirectory(), publicPath)
+        StaticFileOptions(
+            FileProvider = new PhysicalFileProvider(path),
+            RequestPath = (PathString "")
+        )
+    app
+       .UseResponseCompression()
        .UseStaticFiles()
+       .UseStaticFiles(options)
        .UseGiraffe webApp
-
-    let home = processContent markdownPath htmlPath true
-    printfn "%A" home
     ()
 
-let configureServices (services : IServiceCollection) =
-    let extraCoders =
-        Extra.empty
-        |> Extra.withCustom Msg.Encoder Msg.Decoder
 
+let configureServices (services : IServiceCollection) =
     services
         .AddGiraffe()
-        .AddSingleton<IJsonSerializer>(ThothSerializer (extra=extraCoders))
-        .AddAntiforgery(Action<_> (fun o -> o.SuppressXFrameOptionsHeader <- true))
+        .AddResponseCompression()
+        .AddSingleton<INegotiationConfig>(CustomNegotiationConfig(DefaultNegotiationConfig()))
         |> ignore
+    ()
 
 Log.Logger <-
     LoggerConfiguration()
         .Enrich.FromLogContext()
-        .MinimumLevel.Debug()
+        .MinimumLevel.Information()
         .WriteTo.ColoredConsole(
              LogEventLevel.Verbose,
             "{NewLine}{Timestamp:HH:mm:ss} [{Level}] ({CorrelationToken}) {Message}{NewLine}{Exception}"

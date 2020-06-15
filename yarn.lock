@@ -1768,10 +1768,15 @@ core-js-compat@^3.6.2:
     browserslist "^4.8.5"
     semver "7.0.0"
 
-core-js@2, core-js@^2.6.5:
+core-js@^2.6.5:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
   integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
+
+core-js@^3.6.5:
+  version "3.6.5"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
+  integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
 
 core-util-is@~1.0.0:
   version "1.0.2"
@@ -2388,10 +2393,10 @@ fable-babel-plugins@^2.3.0:
   resolved "https://registry.yarnpkg.com/fable-babel-plugins/-/fable-babel-plugins-2.3.0.tgz#cb4f652bbe78bd8e4a34e17c851d940fa6f3fa44"
   integrity sha512-alGBNw5HZJzTEznXKfypFEkD5aWsspbCcoVDu9j8Mqdi77dgp4BSjhYSg61mQEg9UluIAZxRM5lhGARYbU97DQ==
 
-fable-compiler@^2.8.3:
-  version "2.8.3"
-  resolved "https://registry.yarnpkg.com/fable-compiler/-/fable-compiler-2.8.3.tgz#da0311d4b5ffae6dfff3f8e5ad580286dcde7b85"
-  integrity sha512-Xm0S+L4TvXcSztNR1HO+LIPpDpRRaBusri78Hdx4UHkM3tf18+84mOwjU342MgEdQAwtu89tK1wRSohfiSbtTg==
+fable-compiler@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/fable-compiler/-/fable-compiler-2.9.0.tgz#3b5b903e8b03975ca98b80f7a42e38125affb0ab"
+  integrity sha512-c6d+KA3c47VJM/1yGvo5vGeK4QKYuUSSaZl+WpoChurICaLfCllX+PEFSryH04LvgVr6UHsmc8PfdUzCm4hvEg==
 
 fable-loader@^2.1.9:
   version "2.1.9"

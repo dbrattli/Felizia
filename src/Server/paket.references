@@ -1,6 +1,7 @@
 group Server
     FSharp.Core
-    Giraffe
+    FSharp.Literate
+
     Microsoft.AspNetCore
     Microsoft.AspNetCore.Antiforgery
     Microsoft.AspNetCore.StaticFiles
@@ -10,22 +11,14 @@ group Server
     Thoth.Json.Giraffe
     Thoth.Json.Net
 
-    Fable.Core
-    Fable.React
-    Fable.Elmish.Browser
-    Fable.Elmish.React
-    Fable.FontAwesome.Free
-
-    FSharp.Control.AsyncRx
-    Reaction.AspNetCore.Middleware
-
+    Giraffe
+    Giraffe.SerilogExtensions
     Serilog.AspNetCore
     Serilog.Sinks.Console
     Serilog.Sinks.ColoredConsole
 
-    FSharp.Literate
-    Fulma
     Feliz.ViewEngine
     Feliz.Bulma.ViewEngine
+
     Legivel
 

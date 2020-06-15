@@ -1,42 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Version.fs" />
-
     <Compile Include="../Shared/Common.fs" />
     <Compile Include="../Shared/Model.fs" />
     <Compile Include="Model.fs" />
 
     <Compile Include="../layouts/partials/Share.fs" />
-    <Compile Include="../layouts/partials/Scripts.fs" />
-    <Compile Include="../layouts/partials/Head.fs" />
+    <Compile Include="../layouts/partials/Content.fs" />
     <Compile Include="../layouts/partials/Footer.fs" />
     <Compile Include="../layouts/partials/PaginationList.fs" />
     <Compile Include="../layouts/partials/PaginationSingle.fs" />
-    <Compile Include="../layouts/partials/Content.fs" />
     <Compile Include="../layouts/partials/Navbar.fs" />
     <Compile Include="../layouts/partials/NavbarHero.fs" />
     <Compile Include="../layouts/partials/Card.fs" />
     <Compile Include="../layouts/partials/Cards.fs" />
-    <Compile Include="../layouts/partials/SingleView.fs" />
     <Compile Include="../layouts/partials/ListView.fs" />
+    <Compile Include="../layouts/partials/SingleView.fs" />
     <Compile Include="../layouts/partials/Index.fs" />
-
-    <Compile Include="../layouts/_defaults/SinglePage.fs" />
-    <Compile Include="../layouts/_defaults/ListPage.fs" />
-    <Compile Include="../layouts/Index.fs" />
 
     <Compile Include="../Shared/Routing.fs" />
 
-    <Compile Include="Yaml.fs" />
-    <Compile Include="Generate.fs" />
-    <Compile Include="Content.fs" />
-    <Compile Include="Server.fs" />
+    <Compile Include="Client.fs" />
   </ItemGroup>
-
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

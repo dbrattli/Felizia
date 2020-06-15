@@ -2,32 +2,22 @@ group Server
     source https://api.nuget.org/v3/index.json
     source https://ci.appveyor.com/nuget/fsharp-formatting
 
-    framework: netcoreapp2.2
+    framework: netcoreapp3.1
     #storage: none
 
     nuget FSharp.Core
-    nuget Giraffe
     nuget Microsoft.AspNetCore
     nuget Microsoft.AspNetCore.Antiforgery
     nuget Microsoft.AspNetCore.StaticFiles
     nuget Microsoft.AspNetCore.WebSockets
     nuget Microsoft.AspNetCore.HttpsPolicy
 
-    nuget Fable.Core ~> 3
-    nuget Fable.React ~> 5
-    nuget Fable.Browser.Event
-    nuget Fable.Browser.Dom
-    nuget Fable.Elmish.Browser ~> 3
-    nuget Fable.Elmish.React ~> 3
-    nuget Fable.FontAwesome.Free ~> 2
-    nuget Fulma ~> 2
-    nuget FSharp.Control.AsyncRx
-    nuget Reaction.AspNetCore.Middleware ~> 1
     nuget Thoth.Json.Giraffe  ~> 2
     nuget Thoth.Json.Net ~> 3
     nuget Feliz.ViewEngine
     nuget Feliz.Bulma.ViewEngine
-
+    nuget Giraffe
+    nuget Giraffe.SerilogExtensions
     nuget Serilog.AspNetCore
     nuget Serilog.Sinks.Console
     nuget Serilog.Sinks.ColoredConsole
@@ -36,9 +26,10 @@ group Server
 
 group Client
     source https://api.nuget.org/v3/index.json
-    framework: netstandard2.0
+    framework: netstandard2.1
     #storage: none
 
+    nuget Fable.Browser.Navigator
     nuget Fable.Core ~> 3
     nuget Fable.Elmish ~> 3
     nuget Fable.Elmish.Debugger ~> 3
@@ -46,12 +37,12 @@ group Client
     nuget Fable.Elmish.HMR ~> 4
     nuget Fable.Elmish.Browser  ~> 3
     nuget Fable.Fetch ~> 2
-    nuget Fable.React ~> 5
+    nuget Fable.React ~> 6
     nuget Fable.FontAwesome.Free ~> 2
-    nuget Fable.Reaction
-    nuget Fulma ~> 2
-    nuget Feliz
+    nuget Fable.SimpleJson
+    nuget Feliz ~> 1
     nuget Feliz.Bulma
+    nuget Feliz.Router
 
 group Build
     source https://api.nuget.org/v3/index.json
