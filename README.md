@@ -11,7 +11,7 @@ built using [SAFE stack](https://safe-stack.github.io/) components such as [Fabl
 Felizia uses [Feliz](https://github.com/Zaid-Ajaj/Feliz) and
 [Feliz.ViewEngine](https://github.com/dbrattli/Feliz.ViewEngine) for templating and Markdown for content.
 
-<div style="width:100%;height:0;padding-bottom:63%;position:relative;"><iframe src="https://giphy.com/embed/daTk4bi02NxUeIflRy" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/feliz-fable-fsharp-daTk4bi02NxUeIflRy">via GIPHY</a></p>
+![felizia](static/img/felizia.gif "Felizia")
 
 ## Features
 
