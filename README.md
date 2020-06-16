@@ -11,7 +11,7 @@ built using [SAFE stack](https://safe-stack.github.io/) components such as [Fabl
 Felizia uses [Feliz](https://github.com/Zaid-Ajaj/Feliz) and
 [Feliz.ViewEngine](https://github.com/dbrattli/Feliz.ViewEngine) for templating and Markdown for content.
 
-![felizia](static/img/felizia.png "Felizia")
+<div style="width:100%;height:0;padding-bottom:63%;position:relative;"><iframe src="https://giphy.com/embed/daTk4bi02NxUeIflRy" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/feliz-fable-fsharp-daTk4bi02NxUeIflRy">via GIPHY</a></p>
 
 ## Features
 
@@ -21,12 +21,12 @@ Felizia uses [Feliz](https://github.com/Zaid-Ajaj/Feliz) and
   better SEO (Search Engine Optimization), perceived quicker loading speed and enables previews in some social media
   sharing (Facebook, twitter, etc).
 - **Single Page Application (SPA)**, subsequent navigation and requests will be client rendered. This gives quicker,
-  almost instant switching between pages.j
+  almost instant switching between pages.
 - **Feliz Templating**, templates are separated from the content and written in F# using [Feliz](https://github.com/Zaid-Ajaj/Feliz) DSL syntax.
 - **Multilingual Mode**, Internationalization (i18n) of pages and words. Translate whole pages or single words or
   sentences used in e.g navigation buttons or menues.
 - **Markdown**. content files are written in Markdown.
-- **Front-matter**, allows you to add front matter in Yaml to your content files.
+- **Front-matter**, allows you to add metadata in Yaml to your content files.
 - **Menues**, are automatically generated based on how you organize your content.
 - **Site Configuration**, the site is configured using Yaml configuration.
 - **Pagination**, both server and client side pagination.
@@ -52,9 +52,9 @@ fake build -t run
 ## Content Organization
 
 All content is organized in the `content` folder. Pages are added as Markdown files e.g `Welcome.md`. Pages can be
-organized in Sections by placing them inside folders, thus the sections are generated based on how you organized your
-content. Content can be translated to other languages by adding a language code to the file e.g `Welcome.nb.md` or
-`Welcome.fr.md`.
+organized in Sections by placing them inside folders e.g `information/Welcome.md`, thus the sections are generated based
+on how you organized your content. Content can be translated to other languages by adding a language code to the file
+e.g `Welcome.nb.md` or `Welcome.fr.md`.
 
 ## The Felizia Technology Stack
 
@@ -66,7 +66,7 @@ components at the following places (alphabetical order):
 * [Feliz](https://github.com/Zaid-Ajaj/Feliz), React DSL
 * [Feliz.Bulma](https://github.com/Dzoukr/Feliz.Bulma), React DSL
 * [Feliz.ViewEngine](https://github.com/dbrattli/Feliz.ViewEngine), Server side React DSL
-* [Giraffe](https://github.com/giraffe-fsharp/Giraffe/),ASP.NET Core web framework
+* [Giraffe](https://github.com/giraffe-fsharp/Giraffe/), ASP.NET Core web framework
 * [Legivel](https://github.com/fjoppe/Legivel), YAML parser
 * [SAFE Stack](https://safe-stack.github.io), An and-to-end, functional-first technology stack.
 
@@ -116,8 +116,12 @@ Documenation is currently self-hosted. Run the application to browse the documen
 
 ## TODO
 
-- Taxonomies
+- Shortcodes, reference e.g Feliz REACT components in Markdown would be really cool.
 
-- Data folder
+- Taxonomies, tagging content
 
-- Many other things are currently not supported. Please provide feature request as a PR.
+- Data folder, have a data folder with additional data or even a database connection
+
+- Archetypes, use e.g a `dotnet tool` to create new pages based on archetypes templates.
+
+- Many other things are currently not supported. Please provide feature request as an issue or a PR.
