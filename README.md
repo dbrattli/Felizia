@@ -15,7 +15,7 @@ Felizia uses [Feliz](https://github.com/Zaid-Ajaj/Feliz) and
 
 ## Features
 
-- **Content Management** Scalable and managable content. Folders becomes sections. Files becomes pages. Menues are
+- **Content Management** Scalable and manageable content. Folders becomes sections. Files becomes pages. Menus are
   generated from the top level sections and summaries are generated from the content.
 - **Server Side Rendering (SSR)**, the initial request on every URL will be server side rendered (SSR). This gives
   better SEO (Search Engine Optimization), perceived quicker loading speed and enables previews in some social media
@@ -24,10 +24,10 @@ Felizia uses [Feliz](https://github.com/Zaid-Ajaj/Feliz) and
   almost instant switching between pages.
 - **Feliz Templating**, templates are separated from the content and written in F# using [Feliz](https://github.com/Zaid-Ajaj/Feliz) DSL syntax.
 - **Multilingual Mode**, Internationalization (i18n) of pages and words. Translate whole pages or single words or
-  sentences used in e.g navigation buttons or menues.
+  sentences used in e.g navigation buttons or menus.
 - **Markdown**. content files are written in Markdown.
 - **Front-matter**, allows you to add metadata in Yaml to your content files.
-- **Menues**, are automatically generated based on how you organize your content.
+- **Menus**, are automatically generated based on how you organize your content.
 - **Site Configuration**, the site is configured using Yaml configuration.
 - **Pagination**, both server and client side pagination.
 
@@ -72,7 +72,7 @@ components at the following places (alphabetical order):
 
 ## Documentation
 
-Documenation is currently self-hosted. Run the application to browse the documentation.
+Documentation is currently self-hosted. Run the application to browse the documentation.
 
 ## Terminology and Links
 
@@ -82,7 +82,7 @@ Documenation is currently self-hosted. Run the application to browse the documen
 - Content (https://gohugo.io/content-management/organization/)
   - Organization (https://gohugo.io/content-management/organization/)
   - Sections (https://gohugo.io/content-management/sections/)
-  - Menues (https://gohugo.io/content-management/menus/)
+  - Menus (https://gohugo.io/content-management/menus/)
   - Multilingual and i8n (https://gohugo.io/content-management/multilingual/)
   - Front matter (https://gohugo.io/content-management/front-matter/)
 
@@ -116,12 +116,16 @@ Documenation is currently self-hosted. Run the application to browse the documen
 
 ## TODO
 
-- Shortcodes, reference e.g Feliz REACT components in Markdown would be really cool.
+- Short-codes, reference e.g Feliz REACT components in Markdown would be really cool.
 
 - Taxonomies, tagging content
+
+- Themes, is there a way to share themes as with Hugo? Not that easy when Feliz templates must be listed in project `.fsproj` files.
 
 - Data folder, have a data folder with additional data or even a database connection
 
 - Archetypes, use e.g a `dotnet tool` to create new pages based on archetypes templates.
 
 - Many other things are currently not supported. Please provide feature request as an issue or a PR.
+
+- Reduce the transfer size of the state / model. Would be cool to allow it to be dynamic, server "patchable" ...

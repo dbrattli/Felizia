@@ -36,7 +36,6 @@ module Content =
             Bulma.title.p page.Title
 
             Bulma.content [
-
                 content { Model = model }
             ]
         ]
