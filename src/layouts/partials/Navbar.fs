@@ -16,7 +16,15 @@ open Felizia.Model
 
 [<AutoOpen>]
 module Navbar =
-    let navbar color (model: Model) dispatch =
+
+    /// <summary>
+    /// Generate Bulma navbar
+    /// </summary>
+    /// <param name="color">The color of the Navbar, e.g color.isDark or color.isWhite.</param>
+    /// <param name="model">The current model.</param>
+    /// <param name="dispatch">The Elmish dispatch function.</param>
+    /// <returns>Bulma Navbar react element.</returns>
+    let navbar (color: ReactProperty) (model: Model) dispatch =
         let site = model.CurrentSite
 
         Bulma.navbar [
@@ -25,8 +33,8 @@ module Navbar =
                 Bulma.container [
                     Bulma.navbarBrand.div [
                         Bulma.navbarItem.a [
-                            prop.href "/"
-                            prop.onClick (fun ev -> ev.preventDefault (); dispatch (PageNavigation Url.Empty))
+                            prop.href site.Home.PermaLink
+                            prop.onClick (fun ev -> ev.preventDefault (); dispatch (PageNavigation site.Home.Url))
                             prop.children [
                                 Html.img [
                                     prop.alt "Brand"
@@ -54,7 +62,7 @@ module Navbar =
                         prop.children [
                             Bulma.navbarStart.div [
                                 // Only show language selector for top level navigation bar.
-                                if List.isEmpty model.CurrentUrl || model.CurrentUrl = [model.CurrentSite.Language.Lang ] then
+                                if model.CurrentUrl = site.Home.Url then
                                     for lang in site.AllTranslations do
                                         Bulma.navbarItem.a [
                                             prop.href lang.BaseUrl
