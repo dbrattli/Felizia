@@ -6,12 +6,13 @@ generates a dynamic isomorphic web application and exposes itself as a [Single p
 page request.
 
 Felizia config and content handling is heavily inspired by the static website generator [Hugo](https://gohugo.io/) but
-built using [SAFE stack](https://safe-stack.github.io/) components such as [Fable](https://fable.io), [Elmish](https://elmish.github.io/elmish/) and [Giraffe](https://github.com/giraffe-fsharp/Giraffe).
+built using [SAFE stack](https://safe-stack.github.io/) components such as [Fable](https://fable.io),
+[Elmish](https://elmish.github.io/elmish/) and [Giraffe](https://github.com/giraffe-fsharp/Giraffe).
 
 Felizia uses [Feliz](https://github.com/Zaid-Ajaj/Feliz) and
 [Feliz.ViewEngine](https://github.com/dbrattli/Feliz.ViewEngine) for templating and Markdown for content.
 
-![felizia](https://github.com/dbrattli/Felizia/raw/master/static/img/Felizia.gif "Felizia")
+![Felizia](https://github.com/dbrattli/Felizia/raw/master/static/img/Felizia.gif "Felizia")
 
 ## Features
 
@@ -22,7 +23,8 @@ Felizia uses [Feliz](https://github.com/Zaid-Ajaj/Feliz) and
   sharing (Facebook, twitter, etc).
 - **Single Page Application (SPA)**, subsequent navigation and requests will be client rendered. This gives quicker,
   almost instant switching between pages.
-- **Feliz Templating**, templates are separated from the content and written in F# using [Feliz](https://github.com/Zaid-Ajaj/Feliz) DSL syntax.
+- **Feliz Templating**, templates are separated from the content and written in F# using
+  [Feliz](https://github.com/Zaid-Ajaj/Feliz) DSL syntax.
 - **Multilingual Mode**, Internationalization (i18n) of pages and words. Translate whole pages or single words or
   sentences used in e.g navigation buttons or menus.
 - **Markdown**. content files are written in Markdown.
@@ -102,25 +104,29 @@ Documentation is currently self-hosted. Run the application to browse the docume
 
 ## Differences from Hugo
 
-- Felicia is a dynamic (non-static) website application generator. Static-generation of all pages should be possible and may be added in future releases.
+- Felicia is a dynamic (non-static) website application generator. Static-generation of all pages should be possible and
+  may be added in future releases.
 
-- Templates, i.e Layouts and Partials needs to be compiled and thus be part of both Client.fsproj and Server.fsproj. Mapping of URLs to custom templates must be done in `Routing.fs`. If not mapped then default templates, i.e `ListPage.fs` or `SinglePage.fs` will be used for sections and pages.
+- Templates, i.e Layouts and Partials needs to be compiled and thus be part of both Client.fsproj and Server.fsproj.
+  Mapping of URLs to custom templates must be done in `Routing.fs`. If not mapped then default templates, i.e
+  `ListPage.fs` or `SinglePage.fs` will be used for sections and pages.
 
 - Only YAML supported for config. Other configuration languages such as JSON and TOML might be added in future.
 
 - `Page.Site` is not available from pages. The site is however directly available in the model. This is to reduce the
   size of JSON state that needs to be transferred to the client in the initial request.
 
-- The `Params` field of front-matter and site config is currently hard coded so you cannot add anything you want there. This might
-  be fixed later when we figure out how to customize the YAML parser.
+- The `Params` field of front-matter and site config is currently hard coded so you cannot add anything you want there.
+  This might be fixed later when we figure out how to customize the YAML parser.
 
-## TODO
+## Up for Grabs
 
 - Short-codes, reference e.g Feliz REACT components in Markdown would be really cool.
 
 - Taxonomies, tagging content
 
-- Themes, is there a way to share themes as with Hugo? Not that easy when Feliz templates must be listed in project `.fsproj` files.
+- Themes, is there a way to share themes as with Hugo? Not that easy when Feliz templates must be listed in project
+  `.fsproj` files.
 
 - Data folder, have a data folder with additional data or even a database connection
 
@@ -129,3 +135,5 @@ Documentation is currently self-hosted. Run the application to browse the docume
 - Many other things are currently not supported. Please provide feature request as an issue or a PR.
 
 - Reduce the transfer size of the state / model. Would be cool to allow it to be dynamic, server "patchable" ...
+
+- Search box should search within summaries, titles, descriptions and content if available.
