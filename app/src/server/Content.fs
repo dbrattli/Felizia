@@ -12,7 +12,6 @@ open Serilog
 
 open Felizia
 open Felizia.Model
-open Felizia.Generate
 
 let htmlPath = Path.GetFullPath "../client/public/gen"
 

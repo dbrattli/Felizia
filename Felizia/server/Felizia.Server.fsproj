@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Model.fs" />
+    
     <Compile Include="Yaml.fs" />
     <Compile Include="Generate.fs" />
   </ItemGroup>

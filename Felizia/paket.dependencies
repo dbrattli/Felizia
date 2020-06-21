@@ -5,7 +5,7 @@ group Server
     framework: netcoreapp3.1
     #storage: none
 
-    nuget FSharp.Core
+    nuget FSharp.Core 4.7
 
     nuget Thoth.Json.Net ~> 4
     nuget Feliz.ViewEngine

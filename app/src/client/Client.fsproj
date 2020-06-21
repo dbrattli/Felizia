@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Compile Include="../shared/Routing.fs" />
-    <Compile Include="Model.fs" />
     <Compile Include="Client.fs" />
   </ItemGroup>
 

@@ -1,13 +1,6 @@
 namespace Felizia.Model
 
 open System
-
-#if FABLE_COMPILER
-open Feliz
-#else
-open Feliz.ViewEngine
-#endif
-
 open Felizia.Common
 
 [<RequireQualifiedAccess>]
@@ -374,7 +367,6 @@ and Model = {
             this
 
 type Dispatch = Msg -> unit
-type View = Model -> Dispatch -> ReactElement
 
 #if !FABLE_COMPILER
 open Thoth.Json.Net

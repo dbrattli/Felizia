@@ -5,7 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="layouts/partials/Share.fs" />
-    <Compile Include="layouts/partials/Scripts.fs" />
     <Compile Include="layouts/partials/Head.fs" />
     <Compile Include="layouts/partials/Footer.fs" />
     <Compile Include="layouts/partials/PaginationList.fs" />
