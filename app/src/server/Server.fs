@@ -1,6 +1,7 @@
 open System
 open System.IO
 
+open Microsoft.AspNetCore
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Hosting
@@ -17,8 +18,7 @@ open Felizia.Generate
 open Felizia.Yaml
 open Felizia.Model
 open Felizia.Common
-open Giraffe.SerilogExtensions
-open Microsoft.AspNetCore
+open Felizia.Content
 
 
 let publicPath = Path.GetFullPath "../Client/public"
@@ -27,6 +27,9 @@ let staticPath = Path.GetFullPath "../../static"
 let port = 8080us
 let configPath = Path.GetFullPath "../../"
 let i18nPath = Path.GetFullPath "../../i18n/"
+let markdownPath = Path.GetFullPath "../../content/"
+
+
 
 let sites =
     parseSiteConfig configPath

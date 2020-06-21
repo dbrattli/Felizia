@@ -7,7 +7,6 @@ open System.IO
 
 open FSharp.Markdown
 open FSharp.Literate
-open Serilog
 
 open Felizia.Common
 open Felizia.Model
@@ -20,9 +19,6 @@ type FileInfo = {
     Content: string option
     FrontMatter: YamlPage option
 }
-
-let markdownPath = Path.GetFullPath "../../content/"
-let htmlPath = Path.GetFullPath "../Client/public/gen"
 
 let generateHtml (site: Site) (root: string) (path: string) (files: FileInfo list) =
     files |> List.iter (fun file ->
@@ -133,7 +129,7 @@ let rec processContent (contentPath: string) (genPath: string) (segments: string
     let pages : Page list =
         files
         |> List.map (fun fileInfo ->
-            Log.Information("Processing {file}", fileInfo.FileName)
+            //Log.Information("Processing {file}", fileInfo.FileName)
 
             let page =
                 match fileInfo.FrontMatter with

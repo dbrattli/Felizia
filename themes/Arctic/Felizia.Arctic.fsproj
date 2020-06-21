@@ -31,6 +31,6 @@
     <PackageReference Include="Feliz.ViewEngine" Version="0.22.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Felizia.fsproj" />
+    <ProjectReference Include="..\..\Felizia\Felizia.fsproj" />
   </ItemGroup>
 </Project>

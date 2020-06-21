@@ -173,7 +173,7 @@ let parseContent (source: string) =
     then fm, None
     else fm, Some md
 
-let parseSiteConfig configPath =
+let parseSiteConfig (configPath: string) =
     let config = File.ReadAllText (Path.Join(configPath, "config.yaml"))
     match Serialization.Deserialize<YamlSite> config with
     | [ Serialization.Success info ]  -> info.Data.ToModel ()
@@ -188,7 +188,7 @@ type YamlTranslation = {
     member this.ToModel () : Translation =
         { Other = this.Other }
 
-let parseI18n i18nPath language =
+let parseI18n (i18nPath: string) (language: string) =
     let pathName = Path.Join(i18nPath, language + ".yaml")
     match File.Exists pathName with
     | false -> Map.empty

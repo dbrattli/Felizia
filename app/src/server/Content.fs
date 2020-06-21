@@ -14,6 +14,7 @@ open Felizia
 open Felizia.Model
 open Felizia.Generate
 
+let htmlPath = Path.GetFullPath "../client/public/gen"
 
 /// Render output as JSON. Only Url with Content.
 let json (model: obj) : HttpHandler = fun next ctx ->
