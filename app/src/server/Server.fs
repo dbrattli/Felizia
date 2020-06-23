@@ -29,8 +29,6 @@ let configPath = Path.GetFullPath "../../"
 let i18nPath = Path.GetFullPath "../../i18n/"
 let markdownPath = Path.GetFullPath "../../content/"
 
-
-
 let sites =
     parseSiteConfig configPath
     // Split site from config into one site for every translation
@@ -48,34 +46,15 @@ let model = { Model.Empty with Sites=sites }
 
 let webApp =
     choose [
-        let content site lang = choose [
-            let model = { model with CurrentSite = site; Language = lang }
-
-            routex "(/?)" >=> Content.page model []
-            routef "/%s" (fun page -> Content.page model [ page ])
-            routef "/%s/" (fun page -> Content.page model [ page ])
-            routef "/%s/%i" (fun (paginationPath, pageNumber) -> Content.paged model paginationPath pageNumber [])
-            routef "/%s/%s" (fun (section, page) -> Content.page model [ section; page ])
-            routef "/%s/%s/" (fun (section, page) -> Content.page model [ section; page ])
-            routef "/%s/%s/%i" (fun (section, paginationPath, pageNumber) -> Content.paged model paginationPath pageNumber [ section ])
-            routef "/%s/%s/%s" (fun (section, subsection, page) -> Content.page model [ section; subsection; page ])
-            routef "/%s/%s/%s/" (fun (section, subsection, page) -> Content.page model [ section; subsection; page ])
-            routef "/%s/%s/%s/%i" (fun (section, subsection, paginationPath, pageNumber) -> Content.paged model paginationPath pageNumber [ section; subsection ])
-        ]
-
-        // Add site for each specific language, i.e '/nb', '/en'
-        for site in sites do
-            let basePath = Uri site.BaseUrl
-            printfn "basePath: %A" basePath.AbsolutePath
-            subRoute (basePath.AbsolutePath +/ site.Language.BaseUrl) (content site (site.Language.Lang))
-
-        // Add site for default language , i.e ''
-        let defaultSite = sites |> List.find (fun site -> site.Language.Lang = site.DefaultContentLanguage)
-        content defaultSite defaultSite.DefaultContentLanguage
+        Content.felizia model
 
         //route "" >=> redirectTo false "/"
         RequestErrors.NOT_FOUND "Not Found"
     ]
+
+// TODO: make configurable in config.yaml
+let singlePage = Layouts.SinglePage.singlePage
+let listPage = Layouts.ListPage.listPage
 
 type CustomNegotiationConfig (baseConfig : INegotiationConfig) =
     interface INegotiationConfig with
@@ -84,8 +63,8 @@ type CustomNegotiationConfig (baseConfig : INegotiationConfig) =
         member __.Rules =
                 dict [
                     "application/json", Content.json
-                    "text/html"       , Content.html
-                    "*/*"             , Content.html
+                    "text/html"       , (Content.html templates singlePage listPage)
+                    "*/*"             , (Content.html templates singlePage listPage)
                 ]
 
 let configureApp (app : IApplicationBuilder) =
@@ -108,6 +87,7 @@ let configureServices (services : IServiceCollection) =
         .AddGiraffe()
         .AddResponseCompression()
         .AddSingleton<INegotiationConfig>(CustomNegotiationConfig(DefaultNegotiationConfig()))
+        .AddSingleton<IRouter>(templates)
         |> ignore
     ()
 

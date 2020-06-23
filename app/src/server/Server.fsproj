@@ -9,7 +9,6 @@
 
     <Compile Include="../shared/Routing.fs" />
 
-    <Compile Include="Content.fs" />
     <Compile Include="Server.fs" />
   </ItemGroup>
   <ItemGroup>

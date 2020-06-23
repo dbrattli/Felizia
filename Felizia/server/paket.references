@@ -4,3 +4,4 @@ group Server
     Feliz.ViewEngine
     FSharp.Literate
     Legivel
+    Giraffe

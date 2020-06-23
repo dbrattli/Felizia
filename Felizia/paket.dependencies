@@ -11,6 +11,7 @@ group Server
     nuget Feliz.ViewEngine
     nuget FSharp.Literate
     nuget Legivel
+    nuget Giraffe
 
 group Client
     source https://api.nuget.org/v3/index.json
@@ -29,5 +30,3 @@ group Theme
     nuget Thoth.Json.Net ~> 4
     nuget Fable.SimpleJson
     nuget Feliz.ViewEngine
-    nuget Feliz ~> 1
-    nuget Feliz.Router

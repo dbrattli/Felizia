@@ -8,10 +8,10 @@ open FSharp.Control.Tasks.V2
 open Feliz.ViewEngine
 open Giraffe
 open Microsoft.AspNetCore.Http
-open Serilog
 
 open Felizia
 open Felizia.Model
+open Felizia.Common
 
 let htmlPath = Path.GetFullPath "../client/public/gen"
 
@@ -26,7 +26,8 @@ let json (model: obj) : HttpHandler = fun next ctx ->
     | _ -> failwith "Missing model"
 
 /// Render output as HTML
-let html (model: obj) : HttpHandler = fun next ctx ->
+let html (templates: IRouter) (singlePage: View) (listPage: View) (model: obj) : HttpHandler = fun next ctx ->
+    let templates = ctx.GetService<IRouter>()
     match model with
     | :? Model as model ->
         let currentPage = model.CurrentPage
@@ -45,10 +46,10 @@ let html (model: obj) : HttpHandler = fun next ctx ->
             match templates.TryGetValue url with
             | true, tmpl -> tmpl
             | false, _ ->
-                Log.Debug "Did not find template for {url}, using defaults"
+                //Log.Debug "Did not find template for {url}, using defaults"
                 if currentPage.IsPage
-                then Layouts.SinglePage.singlePage
-                else Layouts.ListPage.listPage
+                then singlePage
+                else listPage
 
         ctx.WriteHtmlStringAsync (template model ignore |> Render.htmlDocument)
     | _ -> ctx.WriteStringAsync "Not found"
@@ -70,7 +71,8 @@ let getLanguage (model: Model) (site: Site) (ctx: HttpContext) =
     | _ -> site.DefaultContentLanguage
 *)
 
-let paged (model: Model) (paginationPath: string) (pageNumber: int) (segments: string list): HttpHandler = fun next ctx ->
+
+let renderPaged (model: Model) (paginationPath: string) (pageNumber: int) (segments: string list): HttpHandler = fun next ctx ->
     let site = model.CurrentSite
     let language = getLanguage model site ctx
     let url, lang =
@@ -108,5 +110,32 @@ let paged (model: Model) (paginationPath: string) (pageNumber: int) (segments: s
             return! next ctx
     }
 
-let page (model: Model) (segments: string list): HttpHandler =
-    paged model "" 1 segments
+let renderPage (model: Model) (segments: string list): HttpHandler =
+    renderPaged model "" 1 segments
+
+let felizia (model: Model) =
+    let sites = model.Sites
+
+    let content site lang = choose [
+        let model = { model with CurrentSite = site; Language = lang }
+
+        routex "(/?)" >=> renderPage model []
+        routef "/%s" (fun page -> renderPage model [ page ])
+        routef "/%s/" (fun page -> renderPage model [ page ])
+        routef "/%s/%i" (fun (paginationPath, pageNumber) -> renderPaged model paginationPath pageNumber [])
+        routef "/%s/%s" (fun (section, page) -> renderPage model [ section; page ])
+        routef "/%s/%s/" (fun (section, page) -> renderPage model [ section; page ])
+        routef "/%s/%s/%i" (fun (section, paginationPath, pageNumber) -> renderPaged model paginationPath pageNumber [ section ])
+        routef "/%s/%s/%s" (fun (section, subsection, page) -> renderPage model [ section; subsection; page ])
+        routef "/%s/%s/%s/" (fun (section, subsection, page) -> renderPage model [ section; subsection; page ])
+        routef "/%s/%s/%s/%i" (fun (section, subsection, paginationPath, pageNumber) -> renderPaged model paginationPath pageNumber [ section; subsection ])
+    ]
+
+    // Add site for each specific language, i.e '/nb', '/en'
+    for site in sites do
+        let basePath = Uri site.BaseUrl
+        subRoute (basePath.AbsolutePath +/ site.Language.BaseUrl) (content site (site.Language.Lang))
+
+    // Add site for default language , i.e ''
+    let defaultSite = sites |> List.find (fun site -> site.Language.Lang = site.DefaultContentLanguage)
+    content defaultSite defaultSite.DefaultContentLanguage

@@ -1,10 +1,12 @@
 namespace Felizia.Model
 
 open System
+open System.Collections.Generic
 open Feliz
 open Fable.SimpleJson
 
 type View = Model -> Dispatch -> ReactElement
+type IRouter = IDictionary<Url, View>
 
 [<AutoOpen>]
 module Extensions =

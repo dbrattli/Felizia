@@ -12,7 +12,7 @@ open Felizia.Model
 
 [<AutoOpen>]
 module Routing =
-    let templates : IDictionary<Url, View> = dict [
+    let templates : IRouter = dict [
         [], Index.index
         [ "nb"], Index.index
     ]

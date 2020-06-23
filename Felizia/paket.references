@@ -1,5 +1,3 @@
 group Theme
     Thoth.Json.Net
-
-    Feliz
     Feliz.ViewEngine
