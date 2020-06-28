@@ -16,6 +16,7 @@ open Serilog.Events
 open Feliz.ViewEngine
 
 open Felizia
+open Felizia.Common
 open Felizia.Generate
 open Felizia.Yaml
 open Felizia.Model
@@ -25,6 +26,7 @@ open Felizia.Arctic
 
 let publicPath = Path.GetFullPath "../Client/public"
 let staticPath = Path.GetFullPath "../../static"
+let tmplPath = Path.GetFullPath "../shared/"
 
 let port = 8080us
 let configPath = Path.GetFullPath "../../"
@@ -57,6 +59,9 @@ let webApp =
 let theme = (List.head sites).Theme
 let ListPage = Type.GetType(sprintf "%s.Layouts.ListPage, %s" theme theme)
 let SinglePage = Type.GetType(sprintf "%s.Layouts.SinglePage, %s" theme theme)
+let tmpl = File.ReadAllText (Path.Join(tmplPath, "Theme.tmpl"))
+let themeFile = String.Format(tmpl, theme)
+do File.WriteAllText (Path.Join(tmplPath, "Theme.fs"), themeFile)
 
 Log.Information("Using theme {theme}", theme)
 
