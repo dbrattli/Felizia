@@ -131,11 +131,13 @@ let felizia (model: Model) =
         routef "/%s/%s/%s/%i" (fun (section, subsection, paginationPath, pageNumber) -> renderPaged model paginationPath pageNumber [ section; subsection ])
     ]
 
-    // Add site for each specific language, i.e '/nb', '/en'
-    for site in sites do
-        let basePath = Uri site.BaseUrl
-        subRoute (basePath.AbsolutePath +/ site.Language.BaseUrl) (content site (site.Language.Lang))
+    choose [
+        // Add site for each specific language, i.e '/nb', '/en'
+        for site in sites do
+            let basePath = Uri site.BaseUrl
+            subRoute (basePath.AbsolutePath +/ site.Language.BaseUrl) (content site (site.Language.Lang))
 
-    // Add site for default language , i.e ''
-    let defaultSite = sites |> List.find (fun site -> site.Language.Lang = site.DefaultContentLanguage)
-    content defaultSite defaultSite.DefaultContentLanguage
+        // Add site for default language , i.e ''
+        let defaultSite = sites |> List.find (fun site -> site.Language.Lang = site.DefaultContentLanguage)
+        content defaultSite defaultSite.DefaultContentLanguage
+    ]

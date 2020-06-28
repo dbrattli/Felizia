@@ -1,4 +1,4 @@
-namespace Felizia.Partials
+namespace Felizia.Arctic.Partials
 
 open System
 

@@ -90,6 +90,9 @@ type YamlLanguageInfo = {
         }
 
 type YamlSite = {
+    [<YamlField("theme")>]
+    Theme: string option
+
     [<YamlField("title")>]
     Title: string option
     [<YamlField("baseURL")>]
@@ -112,6 +115,7 @@ type YamlSite = {
 
         let empty = Site.Empty
         {  empty with
+            Theme = this.Theme |> Option.defaultValue empty.Theme
             Title = this.Title |> Option.defaultValue String.Empty
             BaseUrl = this.BaseUrl |> Option.defaultValue String.Empty
             Params = this.Params |> Option.map (fun p -> p.ToModel()) |> Option.defaultValue SiteParams.Empty

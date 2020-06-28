@@ -3,9 +3,9 @@ namespace Felizia
 open System.Collections.Generic
 
 #if FABLE_COMPILER
-open Felizia.Partials
+open Felizia.Arctic.Partials
 #else
-open Felizia.Layouts
+open Felizia.Arctic.Layouts
 #endif
 
 open Felizia.Model

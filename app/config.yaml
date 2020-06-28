@@ -6,6 +6,7 @@ summaryLength: 40
 SectionPagesMenu: main
 DefaultContentLanguage: en
 paginate: 5
+theme: "Felizia.Arctic"
 
 params:
   author: Brattli Labs

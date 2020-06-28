@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Theme.fs" />
     <Compile Include="../shared/Routing.fs" />
     <Compile Include="Client.fs" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Felizia\Felizia.fsproj" />
     <ProjectReference Include="..\..\..\Felizia\Client\Felizia.Client.fsproj" />
     <ProjectReference Include="..\..\..\themes\Arctic\Felizia.Arctic.fsproj" />
   </ItemGroup>

@@ -13,12 +13,14 @@ open Giraffe
 open Serilog
 open Serilog.Events
 
+open Feliz.ViewEngine
+
 open Felizia
 open Felizia.Generate
 open Felizia.Yaml
 open Felizia.Model
-open Felizia.Common
 open Felizia.Content
+open Felizia.Arctic
 
 
 let publicPath = Path.GetFullPath "../Client/public"
@@ -52,9 +54,18 @@ let webApp =
         RequestErrors.NOT_FOUND "Not Found"
     ]
 
-// TODO: make configurable in config.yaml
-let singlePage = Layouts.SinglePage.singlePage
-let listPage = Layouts.ListPage.listPage
+let theme = (List.head sites).Theme
+let ListPage = Type.GetType(sprintf "%s.Layouts.ListPage, %s" theme theme)
+let SinglePage = Type.GetType(sprintf "%s.Layouts.SinglePage, %s" theme theme)
+
+Log.Information("Using theme {theme}", theme)
+
+let adapt (page: Type) (method: string) (model: Model) (dispatch: Dispatch) =
+    let ret = page.GetMethod(method).Invoke(null, [| box model; box dispatch |])
+    ret :?> ReactElement
+
+let singlePage = adapt SinglePage "singlePage"
+let listPage = adapt ListPage "listPage"
 
 type CustomNegotiationConfig (baseConfig : INegotiationConfig) =
     interface INegotiationConfig with

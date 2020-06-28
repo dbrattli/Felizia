@@ -1,4 +1,4 @@
-namespace Felizia.Partials
+namespace Felizia.Arctic.Partials
 
 #if FABLE_COMPILER
 open Feliz

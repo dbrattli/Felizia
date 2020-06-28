@@ -12,7 +12,7 @@ open Fetch
 open Felizia
 open Felizia.Common
 open Felizia.Model
-open Felizia.Partials
+open Felizia.Theme
 
 // The Msg type defines what events/actions can occur while the application is running
 // the state of the application changes *only* in reaction to these events
@@ -46,7 +46,7 @@ let update (msg: Msg) (currentModel: Model) : Model * Cmd<_> =
         let site = currentModel.CurrentSite
         let segments =
             let ba = site.BaseSegments ()
-            printfn "base segments %A" ba
+            //printfn "base segments %A" ba
             let xs = url
 
             // FIXME: remove base segments from URL.
@@ -104,8 +104,8 @@ let render (model: Model) (dispatch : Dispatch) =
             | false, _ ->
                 // Use default templates
                 if currentPage.IsPage
-                then singleView
-                else listView
+                then Felizia.Theme.singleView
+                else Felizia.Theme.listView
 
         template model dispatch
 

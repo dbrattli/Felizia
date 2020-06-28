@@ -202,6 +202,8 @@ and Page = {
 
 // Page structure
 and Site = {
+    /// A string representing the theme of the site.
+    Theme: string
     /// A string representing the title of the site.
     Title: string
     /// The base URL for the site as defined in the site configuration.
@@ -240,6 +242,7 @@ and Site = {
 
     static member Empty =
         {
+            Theme = "Felizia.Arctic"
             Title = String.Empty
             BaseUrl = String.Empty
             DefaultContentLanguage = "en"
@@ -295,7 +298,7 @@ and Model = {
         | None -> key
 
     static member Empty =
-         {
+        {
             Burger = false
             Loading = false
 
