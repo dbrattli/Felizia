@@ -10,7 +10,7 @@ open Feliz.Bulma.ViewEngine
 open Feliz.Bulma.ViewEngine.Operators
 #endif
 
-open Felizia.Model
+open Felizia
 
 [<AutoOpen>]
 module NavbarHero =

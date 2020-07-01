@@ -2,7 +2,7 @@ namespace Felizia.Partials
 
 open Feliz.ViewEngine
 
-open Felizia.Model
+open Felizia
 
 [<AutoOpen>]
 module Scripts =

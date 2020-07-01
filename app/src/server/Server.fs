@@ -19,7 +19,6 @@ open Felizia
 open Felizia.Common
 open Felizia.Generate
 open Felizia.Yaml
-open Felizia.Model
 open Felizia.Content
 open Felizia.Arctic
 
@@ -56,21 +55,8 @@ let webApp =
         RequestErrors.NOT_FOUND "Not Found"
     ]
 
-let theme = (List.head sites).Theme
-let ListPage = Type.GetType(sprintf "%s.Layouts.ListPage, %s" theme theme)
-let SinglePage = Type.GetType(sprintf "%s.Layouts.SinglePage, %s" theme theme)
-let tmpl = File.ReadAllText (Path.Join(tmplPath, "Theme.tmpl"))
-let themeFile = String.Format(tmpl, theme)
-do File.WriteAllText (Path.Join(tmplPath, "Theme.fs"), themeFile)
-
-Log.Information("Using theme {theme}", theme)
-
-let adapt (page: Type) (method: string) (model: Model) (dispatch: Dispatch) =
-    let ret = page.GetMethod(method).Invoke(null, [| box model; box dispatch |])
-    ret :?> ReactElement
-
-let singlePage = adapt SinglePage "singlePage"
-let listPage = adapt ListPage "listPage"
+let theme = Theme.set ((List.head sites).Theme) tmplPath
+Log.Information("Using theme {theme}", theme.Name)
 
 type CustomNegotiationConfig (baseConfig : INegotiationConfig) =
     interface INegotiationConfig with
@@ -79,8 +65,8 @@ type CustomNegotiationConfig (baseConfig : INegotiationConfig) =
         member __.Rules =
                 dict [
                     "application/json", Content.json
-                    "text/html"       , (Content.html templates singlePage listPage)
-                    "*/*"             , (Content.html templates singlePage listPage)
+                    "text/html"       , (Content.html templates theme.SinglePage theme.ListPage)
+                    "*/*"             , (Content.html templates theme.SinglePage theme.ListPage)
                 ]
 
 let configureApp (app : IApplicationBuilder) =

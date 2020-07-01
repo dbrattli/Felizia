@@ -1,15 +1,14 @@
 module Felizia.Generate
 
 open System
-open System.Collections.Generic
 open System.Globalization
 open System.IO
 
 open FSharp.Markdown
 open FSharp.Literate
 
+open Felizia
 open Felizia.Common
-open Felizia.Model
 open Felizia.Yaml
 
 type FileInfo = {

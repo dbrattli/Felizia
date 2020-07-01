@@ -3,7 +3,7 @@ namespace Felizia.Arctic.Partials
 open System
 
 open Feliz.ViewEngine
-open Felizia.Model
+open Felizia
 open Felizia.Common
 
 [<AutoOpen>]

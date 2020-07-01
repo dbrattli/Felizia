@@ -10,7 +10,6 @@ open Giraffe
 open Microsoft.AspNetCore.Http
 
 open Felizia
-open Felizia.Model
 open Felizia.Common
 
 let htmlPath = Path.GetFullPath "../client/public/gen"

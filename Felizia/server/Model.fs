@@ -1,4 +1,4 @@
-namespace Felizia.Model
+namespace Felizia
 
 open System.Collections.Generic
 open Feliz.ViewEngine

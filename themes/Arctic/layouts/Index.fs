@@ -2,7 +2,7 @@ namespace Felizia.Arctic.Layouts
 
 open Feliz.ViewEngine
 
-open Felizia.Model
+open Felizia
 open Felizia.Partials
 open Felizia.Arctic.Partials
 

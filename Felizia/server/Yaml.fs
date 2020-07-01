@@ -7,7 +7,7 @@ open System.Text.RegularExpressions
 open Legivel.Attributes
 open Legivel
 
-open Felizia.Model
+open Felizia
 
 type YamlAuthor = {
     [<YamlField("given_name")>] GivenName: string option

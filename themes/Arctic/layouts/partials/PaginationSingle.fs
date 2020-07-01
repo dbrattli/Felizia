@@ -10,7 +10,7 @@ open Feliz.ViewEngine
 open Feliz.Bulma.ViewEngine
 #endif
 
-open Felizia.Model
+open Felizia
 
 [<AutoOpen>]
 module PaginationSingle =

@@ -11,7 +11,7 @@ open Feliz.Bulma.ViewEngine
 #endif
 
 open Felizia.Partials
-open Felizia.Model
+open Felizia
 
 [<AutoOpen>]
 module Cards =

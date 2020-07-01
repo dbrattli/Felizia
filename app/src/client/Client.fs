@@ -11,8 +11,6 @@ open Fetch
 
 open Felizia
 open Felizia.Common
-open Felizia.Model
-open Felizia.Theme
 
 // The Msg type defines what events/actions can occur while the application is running
 // the state of the application changes *only* in reaction to these events

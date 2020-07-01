@@ -1,4 +1,4 @@
-namespace Felizia.Model
+namespace Felizia
 
 open System
 open System.Collections.Generic
@@ -10,7 +10,8 @@ type IRouter = IDictionary<Url, View>
 
 [<AutoOpen>]
 module Extensions =
-    type Model with
+    type Model
+    with
         member this.Materialize () = String.Empty
         static member Dematerialize (stateJson: string option) : Model =
             match stateJson with
