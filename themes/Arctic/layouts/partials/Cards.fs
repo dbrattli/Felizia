@@ -10,7 +10,6 @@ open Feliz.ViewEngine
 open Feliz.Bulma.ViewEngine
 #endif
 
-open Felizia.Partials
 open Felizia
 
 [<AutoOpen>]

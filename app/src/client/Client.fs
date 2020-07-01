@@ -36,7 +36,12 @@ let fetch<'a> (lang: string) (url: Url) (props: RequestProperties list) =
 
 let update (msg: Msg) (currentModel: Model) : Model * Cmd<_> =
     match msg with
-    | ToggleBurger -> { currentModel with Burger = not currentModel.Burger }, Cmd.none
+    | ToggleBurger ->
+        let extra =
+            if currentModel.Extra.ContainsKey "burger"
+            then currentModel.Extra.Remove "burger"
+            else currentModel.Extra.Add ("burger", "true")
+        { currentModel with Extra = extra }, Cmd.none
     | PageNavigation url ->
         currentModel, Router.navigatePath(List.append (currentModel.CurrentSite.BaseSegments ()) url |> Array.ofList)
     | UrlChanged url ->

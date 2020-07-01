@@ -275,7 +275,6 @@ and Msg =
 
 /// The main context
 and Model = {
-    Burger: bool
     Sites: Site list
     CurrentSite: Site
     CurrentPage: Page
@@ -284,6 +283,9 @@ and Model = {
     Loading: bool
     Language: string
     Version: string
+
+    /// Extra custom info to be used by themes etc
+    Extra: Map<string, string>
 } with
     member this.T (key: string) =
         let res = this.CurrentSite.I18n.TryFind key
@@ -299,7 +301,6 @@ and Model = {
 
     static member Empty =
         {
-            Burger = false
             Loading = false
 
             CurrentSite = Site.Empty
@@ -311,6 +312,8 @@ and Model = {
             CurrentUrl = []
             Language = "en"
             Version = "1.0.0"
+
+            Extra = Map.empty
         }
 
     ///  Creates an absolute URL based on the configured baseURL.

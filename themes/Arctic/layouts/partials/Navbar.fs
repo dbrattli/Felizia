@@ -44,7 +44,7 @@ module Navbar =
                             ]
                         ]
                         Bulma.navbarBurger [
-                            if model.Burger
+                            if model.Extra.ContainsKey "burger"
                                 then navbarMenu.isActive
                             prop.onClick (fun _ -> dispatch ToggleBurger)
                             prop.custom("data-target", "navbarMenu")
@@ -56,7 +56,7 @@ module Navbar =
                         ]
                     ]
                     Bulma.navbarMenu [
-                        if model.Burger
+                        if model.Extra.ContainsKey "burger"
                         then navbarMenu.isActive
                         prop.id "navbarMenu"
                         prop.children [
