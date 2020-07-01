@@ -102,8 +102,8 @@ let render (model: Model) (dispatch : Dispatch) =
             | false, _ ->
                 // Use default templates
                 if currentPage.IsPage
-                then Felizia.Theme.singleView
-                else Felizia.Theme.listView
+                then Felizia.Theme.theme.Single
+                else Felizia.Theme.theme.List
 
         template model dispatch
 

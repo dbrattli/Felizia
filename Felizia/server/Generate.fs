@@ -1,4 +1,4 @@
-module Felizia.Generate
+namespace Felizia
 
 open System
 open System.Globalization
@@ -7,6 +7,7 @@ open System.IO
 open FSharp.Markdown
 open FSharp.Literate
 
+open Feliz.ViewEngine
 open Felizia
 open Felizia.Common
 open Felizia.Yaml
@@ -19,192 +20,212 @@ type FileInfo = {
     FrontMatter: YamlPage option
 }
 
-let generateHtml (site: Site) (root: string) (path: string) (files: FileInfo list) =
-    files |> List.iter (fun file ->
-        //printfn "fileInfo: %A" (file.FileName, file.Locale)
+module Generate =
+    let adapt (page: Type) (method: string) (model: Model) (dispatch: Dispatch) =
+        let ret = page.GetMethod(method).Invoke(null, [| box model; box dispatch |])
+        ret :?> ReactElement
 
-        let locale = file.Locale
-        let fileName = file.FileNameWithoutLocale
-        let pathName = Path.Combine(root, locale, path)
+    let theme (theme: string) (tmplPath: string) =
+        let ListPage = Type.GetType(sprintf "%s.Layouts.ListPage, %s" theme theme)
+        let SinglePage = Type.GetType(sprintf "%s.Layouts.SinglePage, %s" theme theme)
+        let Index = Type.GetType(sprintf "%s.Layouts.Index, %s" theme theme)
+        let tmpl = File.ReadAllText (Path.Join(tmplPath, "Theme.fs.tmpl"))
+        let themeFile = String.Format(tmpl, theme, theme)
+        do File.WriteAllText (Path.Join(tmplPath, "Theme.fs"), themeFile)
 
-        match file.Content with
-        | Some content ->
-            let html =
-                match site.Params.Literate with
-                | true ->
-                    content
-                    |> Literate.ParseMarkdownString
-                    |> (fun doc -> Literate.WriteHtml(doc, lineNumbers=true))
-                | _ ->
-                    content
-                    |> FSharp.Markdown.Markdown.TransformHtml
+        let singlePage = adapt SinglePage "singlePage"
+        let listPage = adapt ListPage "listPage"
+        let index = adapt Index "index"
 
-            let bulmify =
-                html
-                    .Replace("<h1>", "<h1 class=\"title is-2\">")
-                    .Replace("<h2>", "<h2 class=\"subtitle is-2\">")
-                    .Replace("<ul>", "<ul class=\"content\">")
+        { Name = theme; Index = index; Single = singlePage; List = listPage}
 
-            let fileName =
-                if file.FileName.StartsWith "index." || file.FileName.StartsWith "_index."
-                then
-                    do Directory.CreateDirectory pathName |> ignore
-                    Path.Join(pathName, "index.html")
-                else
-                    let path = Path.Join(pathName, fileName)
-                    do Directory.CreateDirectory path |> ignore
-                    Path.Join(path, "index.html")
 
-            printfn "Writing HTML file to: %s" fileName
-            File.WriteAllText(fileName, bulmify)
-        | _ ->
-            printfn "Skipping file without content: %s" fileName
-            ()
-    )
+    let generateHtml (site: Site) (root: string) (path: string) (files: FileInfo list) =
+        files |> List.iter (fun file ->
+            //printfn "fileInfo: %A" (file.FileName, file.Locale)
 
-let getSummary (site: Site) (document: string option) =
-    let space = " "
-    match document with
-    | Some text ->
-        let md = Markdown.Parse text
+            let locale = file.Locale
+            let fileName = file.FileNameWithoutLocale
+            let pathName = Path.Combine(root, locale, path)
 
-        md.Paragraphs
-        |> Seq.choose (function | Paragraph(body=[Literal(text=text)]) -> Some text | _ -> None)
-        |> Seq.collect (fun p -> p.Split space)
-        |> Seq.truncate site.SummaryLength
-        |> String.concat space
-        |> Some
-    | _ -> None
+            match file.Content with
+            | Some content ->
+                let html =
+                    match site.Params.Literate with
+                    | true ->
+                        content
+                        |> Literate.ParseMarkdownString
+                        |> (fun doc -> Literate.WriteHtml(doc, lineNumbers=true))
+                    | _ ->
+                        content
+                        |> FSharp.Markdown.Markdown.TransformHtml
 
-/// Processes Markdown pages and generates cards.json and a corresponding html
-/// file for every markdown file
-let rec processContent (contentPath: string) (genPath: string) (segments: string list) (site: Site) (locale: string) : Site =
-    // Get all files in this folder
-    let files =
-        let pattern = "*.md"
-        System.IO.Directory.GetFiles(contentPath, pattern) |> List.ofArray
-        |> List.map (fun file ->
-            let fileName = Path.GetFileName file
-            let nameWithoutExtension = Path.GetFileNameWithoutExtension fileName
-            let nameWithoutLocale = Path.GetFileNameWithoutExtension nameWithoutExtension
-            let fileLocale = Path.GetExtension nameWithoutExtension |> (fun name -> name.Trim('.'))
+                let bulmify =
+                    html
+                        .Replace("<h1>", "<h1 class=\"title is-2\">")
+                        .Replace("<h2>", "<h2 class=\"subtitle is-2\">")
+                        .Replace("<ul>", "<ul class=\"content\">")
 
-            let text = File.ReadAllText file
-            let yaml, md = Yaml.parseContent text
-            let fm = Yaml.YamlPage.Deserialize yaml
+                let fileName =
+                    if file.FileName.StartsWith "index." || file.FileName.StartsWith "_index."
+                    then
+                        do Directory.CreateDirectory pathName |> ignore
+                        Path.Join(pathName, "index.html")
+                    else
+                        let path = Path.Join(pathName, fileName)
+                        do Directory.CreateDirectory path |> ignore
+                        Path.Join(path, "index.html")
 
-            { FileName = fileName; Content=md; FrontMatter=fm; Locale=fileLocale; FileNameWithoutLocale = nameWithoutLocale }
+                printfn "Writing HTML file to: %s" fileName
+                File.WriteAllText(fileName, bulmify)
+            | _ ->
+                printfn "Skipping file without content: %s" fileName
+                ()
         )
 
-    // Recursively get all sections in this folder.
-    let sections : Page list =
-        let dirs = System.IO.Directory.GetDirectories(contentPath) |> List.ofArray
-        dirs
-        |> List.map (fun dir ->
-            let dirName = DirectoryInfo(dir).Name
-            let contentPath = Path.Combine (contentPath, dirName)
+    let getSummary (site: Site) (document: string option) =
+        let space = " "
+        match document with
+        | Some text ->
+            let md = Markdown.Parse text
 
-            processContent contentPath genPath (dirName :: segments) site locale
-            |> (fun site -> site.Home)
-        )
+            md.Paragraphs
+            |> Seq.choose (function | Paragraph(body=[Literal(text=text)]) -> Some text | _ -> None)
+            |> Seq.collect (fun p -> p.Split space)
+            |> Seq.truncate site.SummaryLength
+            |> String.concat space
+            |> Some
+        | _ -> None
 
-    // Generate menues from sections
-    let menues =
-        sections
-        |> List.filter (fun section -> (not << List.isEmpty) section.Pages) // Hide empty menues
-        |> List.map (fun section ->
-            {
-                URL = "/" +/ (String.Join("/", section.Url))
-                Url = section.Url
-                Name = section.Title
-                Weight = section.Weight
-            }
-        )
-        |> List.sortBy (fun m -> m.Weight)
+    /// Processes Markdown pages and generates cards.json and a corresponding html
+    /// file for every markdown file
+    let rec processContent (contentPath: string) (genPath: string) (segments: string list) (site: Site) (locale: string) : Site =
+        // Get all files in this folder
+        let files =
+            let pattern = "*.md"
+            System.IO.Directory.GetFiles(contentPath, pattern) |> List.ofArray
+            |> List.map (fun file ->
+                let fileName = Path.GetFileName file
+                let nameWithoutExtension = Path.GetFileNameWithoutExtension fileName
+                let nameWithoutLocale = Path.GetFileNameWithoutExtension nameWithoutExtension
+                let fileLocale = Path.GetExtension nameWithoutExtension |> (fun name -> name.Trim('.'))
 
-    let site' = { site with Menus = menues }
+                let text = File.ReadAllText file
+                let yaml, md = Yaml.parseContent text
+                let fm = Yaml.YamlPage.Deserialize yaml
 
-    // Convert files to pages (some files are sections)
-    let pages : Page list =
-        files
-        |> List.map (fun fileInfo ->
-            //Log.Information("Processing {file}", fileInfo.FileName)
+                { FileName = fileName; Content=md; FrontMatter=fm; Locale=fileLocale; FileNameWithoutLocale = nameWithoutLocale }
+            )
 
-            let page =
-                match fileInfo.FrontMatter with
-                | Some fm -> fm.ToModel ()
-                | None -> Page.Empty ()
+        // Recursively get all sections in this folder.
+        let sections : Page list =
+            let dirs = System.IO.Directory.GetDirectories(contentPath) |> List.ofArray
+            dirs
+            |> List.map (fun dir ->
+                let dirName = DirectoryInfo(dir).Name
+                let contentPath = Path.Combine (contentPath, dirName)
 
-            let summary = getSummary site' fileInfo.Content
-            let baseFileName = fileInfo.FileNameWithoutLocale
-            let file = { LogicalName=fileInfo.FileName; Path=contentPath; BaseFileName=baseFileName } |> Some
-            let isPage = not (fileInfo.FileName.StartsWith "index." || fileInfo.FileName.StartsWith "_index.")
-            let weight = fileInfo.FrontMatter |> Option.bind (fun p -> p.Weight) |> Option.defaultValue 0
-            let title =
-                if page.Title = String.Empty && isPage
-                then CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fileInfo.FileName.ToLower())
-                else page.Title
+                processContent contentPath genPath (dirName :: segments) site locale
+                |> (fun site -> site.Home)
+            )
 
-            let language = List.tryFind (fun lang -> lang.Lang=fileInfo.Locale) site.AllTranslations
-            let lang = language |> Option.map (fun lang -> lang.Lang) |> Option.defaultValue ""
+        // Generate menues from sections
+        let menues =
+            sections
+            |> List.filter (fun section -> (not << List.isEmpty) section.Pages) // Hide empty menues
+            |> List.map (fun section ->
+                {
+                    URL = "/" +/ (String.Join("/", section.Url))
+                    Url = section.Url
+                    Name = section.Title
+                    Weight = section.Weight
+                }
+            )
+            |> List.sortBy (fun m -> m.Weight)
 
-            let relLangUrl =
-                [
-                    if language.IsSome && lang <> site.DefaultContentLanguage then
-                        lang
-                    yield! segments
-                    if isPage then
-                        baseFileName
-                ]
+        let site' = { site with Menus = menues }
 
-            let permaLink = site.BaseUrl +/ String.Join("/", relLangUrl)
+        // Convert files to pages (some files are sections)
+        let pages : Page list =
+            files
+            |> List.map (fun fileInfo ->
+                //Log.Information("Processing {file}", fileInfo.FileName)
 
-            { page with
-                Summary = summary
+                let page =
+                    match fileInfo.FrontMatter with
+                    | Some fm -> fm.ToModel ()
+                    | None -> Page.Empty ()
+
+                let summary = getSummary site' fileInfo.Content
+                let baseFileName = fileInfo.FileNameWithoutLocale
+                let file = { LogicalName=fileInfo.FileName; Path=contentPath; BaseFileName=baseFileName } |> Some
+                let isPage = not (fileInfo.FileName.StartsWith "index." || fileInfo.FileName.StartsWith "_index.")
+                let weight = fileInfo.FrontMatter |> Option.bind (fun p -> p.Weight) |> Option.defaultValue 0
+                let title =
+                    if page.Title = String.Empty && isPage
+                    then CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fileInfo.FileName.ToLower())
+                    else page.Title
+
+                let language = List.tryFind (fun lang -> lang.Lang=fileInfo.Locale) site.AllTranslations
+                let lang = language |> Option.map (fun lang -> lang.Lang) |> Option.defaultValue ""
+
+                let relLangUrl =
+                    [
+                        if language.IsSome && lang <> site.DefaultContentLanguage then
+                            lang
+                        yield! segments
+                        if isPage then
+                            baseFileName
+                    ]
+
+                let permaLink = site.BaseUrl +/ String.Join("/", relLangUrl)
+
+                { page with
+                    Summary = summary
+                    Title = title
+                    PermaLink = permaLink
+                    Url = relLangUrl
+                    File = file
+                    Language = language |> Option.defaultValue page.Language
+                    IsPage = isPage
+                    Weight = weight
+                }
+            )
+            |> List.filter (fun p -> p.Language.Lang = locale)
+            |> List.sortBy (fun p -> p.Weight)
+
+        do generateHtml site genPath (Path.Join(segments |> Array.ofList)) files
+
+        let sections', pages' =
+            pages
+            |> List.partition (fun page -> not page.IsPage)
+
+        let index' = if Seq.isEmpty sections' then Page.Empty () else sections' |> Seq.head
+        let subtree =
+            List.append pages' sections
+        let title =
+            if index'.Title = String.Empty
+            then
+                CultureInfo.CurrentCulture.TextInfo.ToTitleCase((segments |> List.tryLast)
+                    |> Option.map (fun title -> title.ToLower())
+                |> Option.defaultValue site.Title)
+            else index'.Title
+
+        let url =
+            [
+                if locale <> site.DefaultContentLanguage then
+                    locale
+                yield! segments
+            ]
+
+        let home =
+            { index' with
+                IsHome = List.isEmpty segments
                 Title = title
-                PermaLink = permaLink
-                Url = relLangUrl
-                File = file
-                Language = language |> Option.defaultValue page.Language
-                IsPage = isPage
-                Weight = weight
+                Url = url
+                IsPage = false
+                Pages = subtree
+                Paginator = None //Some { Pages = List.collect (fun s -> List.filter (fun p -> p.IsPage) (s :: s.Pages) ) subtree }
             }
-        )
-        |> List.filter (fun p -> p.Language.Lang = locale)
-        |> List.sortBy (fun p -> p.Weight)
-
-    do generateHtml site genPath (Path.Join(segments |> Array.ofList)) files
-
-    let sections', pages' =
-        pages
-        |> List.partition (fun page -> not page.IsPage)
-
-    let index' = if Seq.isEmpty sections' then Page.Empty () else sections' |> Seq.head
-    let subtree =
-        List.append pages' sections
-    let title =
-        if index'.Title = String.Empty
-        then
-            CultureInfo.CurrentCulture.TextInfo.ToTitleCase((segments |> List.tryLast)
-                |> Option.map (fun title -> title.ToLower())
-            |> Option.defaultValue site.Title)
-        else index'.Title
-
-    let url =
-        [
-            if locale <> site.DefaultContentLanguage then
-                locale
-            yield! segments
-        ]
-
-    let home =
-        { index' with
-            IsHome = List.isEmpty segments
-            Title = title
-            Url = url
-            IsPage = false
-            Pages = subtree
-            Paginator = None //Some { Pages = List.collect (fun s -> List.filter (fun p -> p.IsPage) (s :: s.Pages) ) subtree }
-        }
-    let language = List.tryFind (fun lang -> lang.Lang = locale) site.AllTranslations |> Option.defaultValue site.Language
-    { site' with Home = home; Language = language; BaseUrl = site'.BaseUrl }
+        let language = List.tryFind (fun lang -> lang.Lang = locale) site.AllTranslations |> Option.defaultValue site.Language
+        { site' with Home = home; Language = language; BaseUrl = site'.BaseUrl }

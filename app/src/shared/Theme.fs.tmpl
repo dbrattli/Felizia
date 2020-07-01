@@ -6,6 +6,9 @@ module Felizia.Theme
 open Felizia
 open {0}
 
-let index : View = Partials.Index.index
-let singleView : View = Partials.SingleView.singleView
-let listView : View = Partials.ListView.listView
+let theme = {{
+    Name = "{1}"
+    Index = Partials.Index.index
+    Single = Partials.SingleView.singleView
+    List = Partials.ListView.listView
+}}

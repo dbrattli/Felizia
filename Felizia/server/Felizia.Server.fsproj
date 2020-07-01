@@ -10,7 +10,6 @@
     <Compile Include="Yaml.fs" />
     <Compile Include="Generate.fs" />
     <Compile Include="Content.fs" />
-    <Compile Include="Theme.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Felizia.fsproj" />

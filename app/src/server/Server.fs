@@ -55,7 +55,7 @@ let webApp =
         RequestErrors.NOT_FOUND "Not Found"
     ]
 
-let theme = Theme.set ((List.head sites).Theme) tmplPath
+let theme = Generate.theme ((List.head sites).Theme) tmplPath
 Log.Information("Using theme {theme}", theme.Name)
 
 type CustomNegotiationConfig (baseConfig : INegotiationConfig) =
@@ -65,8 +65,8 @@ type CustomNegotiationConfig (baseConfig : INegotiationConfig) =
         member __.Rules =
                 dict [
                     "application/json", Content.json
-                    "text/html"       , (Content.html templates theme.SinglePage theme.ListPage)
-                    "*/*"             , (Content.html templates theme.SinglePage theme.ListPage)
+                    "text/html"       , (Content.html templates theme.Single theme.List)
+                    "*/*"             , (Content.html templates theme.Single theme.List)
                 ]
 
 let configureApp (app : IApplicationBuilder) =

@@ -8,6 +8,13 @@ open Fable.SimpleJson
 type View = Model -> Dispatch -> ReactElement
 type IRouter = IDictionary<Url, View>
 
+type Theme = {
+    Name: string
+    Index: View
+    Single: View
+    List: View
+}
+
 [<AutoOpen>]
 module Extensions =
     type Model
