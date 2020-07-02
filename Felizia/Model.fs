@@ -266,12 +266,12 @@ and ContentResponse = {
     Url: string list
 }
 and Msg =
-    | ToggleBurger
     | UrlChanged of Url
     | PageNavigation of Url
     | LoadContent of Url
     | ContentLoaded of ContentResponse
     | SetLanguage of string
+    | Custom of string
 
 /// The main context
 and Model = {

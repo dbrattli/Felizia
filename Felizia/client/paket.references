@@ -1,3 +1,5 @@
 group Client
     Feliz
+    Feliz.Router
     Fable.SimpleJson
+    Fable.Fetch

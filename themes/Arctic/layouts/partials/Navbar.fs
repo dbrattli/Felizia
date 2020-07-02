@@ -46,7 +46,7 @@ module Navbar =
                         Bulma.navbarBurger [
                             if model.Extra.ContainsKey "burger"
                                 then navbarMenu.isActive
-                            prop.onClick (fun _ -> dispatch ToggleBurger)
+                            prop.onClick (fun _ -> dispatch (Custom "ToggleBurger"))
                             prop.custom("data-target", "navbarMenu")
                             prop.children [
                                 Html.span []
@@ -74,8 +74,9 @@ module Navbar =
                             Bulma.navbarEnd.div [
                                 for menu in site.Menus do
                                     Bulma.navbarItem.a [
-                                        if menu.IsMenuCurrent model
-                                        then navbarItem.isActive
+                                        if menu.IsMenuCurrent model then
+                                            navbarItem.isActive
+
                                         prop.href menu.URL
                                         prop.text menu.Name
                                         prop.onClick (fun ev -> ev.preventDefault (); dispatch (PageNavigation menu.Url))

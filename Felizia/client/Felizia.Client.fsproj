@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Model.fs" />
+    <Compile Include="Client.fs" />
   </ItemGroup>
 
   <ItemGroup>
