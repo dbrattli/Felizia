@@ -12,7 +12,7 @@ built using [SAFE stack](https://safe-stack.github.io/) components such as [Fabl
 Felizia uses [Feliz](https://github.com/Zaid-Ajaj/Feliz) and
 [Feliz.ViewEngine](https://github.com/dbrattli/Feliz.ViewEngine) for templating and Markdown for content.
 
-![Felizia](https://github.com/dbrattli/Felizia/raw/master/static/img/Felizia.gif "Felizia")
+![Felizia](https://github.com/dbrattli/Felizia/raw/master/app/static/img/Felizia.gif "Felizia")
 
 ## Features
 
