@@ -1,0 +1,33 @@
+group Server
+    source https://api.nuget.org/v3/index.json
+    source https://ci.appveyor.com/nuget/fsharp-formatting
+
+    framework: netcoreapp3.1
+    #storage: none
+
+    nuget FSharp.Core 4.7
+
+    nuget Thoth.Json.Net ~> 4
+    nuget Feliz.ViewEngine
+    nuget FSharp.Literate
+    nuget Legivel
+    nuget Giraffe
+
+group Client
+    source https://api.nuget.org/v3/index.json
+    framework: netstandard2.1
+    #storage: none
+
+    nuget Fable.SimpleJson
+    nuget Feliz ~> 1
+    nuget Feliz.Router
+    nuget Fable.Fetch
+
+group Theme
+    source https://api.nuget.org/v3/index.json
+    framework: netstandard2.1
+    #storage: none
+
+    nuget Thoth.Json.Net ~> 4
+    nuget Fable.SimpleJson
+    nuget Feliz.ViewEngine

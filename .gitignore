@@ -19,3 +19,4 @@ src/Shared/markdown/activities/Images
 src/Client/public/gen
 symbolCache.db
 .ionide/
+app/src/client/public/gen

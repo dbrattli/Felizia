@@ -1,0 +1,7 @@
+group Server
+    Thoth.Json.Net
+
+    Feliz.ViewEngine
+    FSharp.Literate
+    Legivel
+    Giraffe
