@@ -1,34 +1,28 @@
 module Felizia.App
 
-open System
-
 open Elmish
-open Fable.Core.JsInterop
 
 open Feliz
 open Feliz.Router
 
-open Felizia
-
 type Model = {
     Felizia: Felizia.Model
-    Burger: bool
+    // Add additional application specific state here
 }
 
 type Msg =
     | FeliziaMsg of Felizia.Msg
+    // Add additional application specific messages here
 
 // The Msg type defines what events/actions can occur while the application is running
 // the state of the application changes *only* in reaction to these events
 let init () : Model*Cmd<_> =
-    // was the page rendered server-side?
-    let stateJson: string option = !!Browser.Dom.window?__INIT_MODEL__
+    let feliziaModel, cmd = Felizia.Client.init ()
     let model = {
-        Felizia = Model.Dematerialize stateJson
-        Burger = false
+        Felizia = feliziaModel
     }
 
-    model, Cmd.none
+    model, cmd |> Cmd.map FeliziaMsg
 
 let update (msg: Msg) (currentModel: Model) : Model * Cmd<_> =
     match msg with
@@ -55,6 +49,8 @@ let render (model: Model) (dispatch : Msg -> unit) =
         Router.onUrlChanged (UrlChanged >> FeliziaMsg >> dispatch)
         Router.application currentView
     ]
+
+open Fable.Core.JsInterop
 
 open Elmish.React
 open Elmish.Debug

@@ -32,6 +32,7 @@ Felizia uses [Feliz](https://github.com/Zaid-Ajaj/Feliz) and
 - **Menus**, are automatically generated based on how you organize your content.
 - **Site Configuration**, the site is configured using Yaml configuration.
 - **Pagination**, both server and client side pagination.
+- **Themes**, themes are compiled as separate assemblies which makes it easy to share and change.
 
 ## Install pre-requisites
 
@@ -125,9 +126,6 @@ Documentation is currently self-hosted. Run the application to browse the docume
 
 - Taxonomies, tagging content
 
-- Themes, is there a way to share themes as with Hugo? Not that easy when Feliz templates must be listed in project
-  `.fsproj` files.
-
 - Data folder, have a data folder with additional data or even a database connection
 
 - Archetypes, use e.g a `dotnet tool` to create new pages based on archetypes templates.
@@ -136,4 +134,4 @@ Documentation is currently self-hosted. Run the application to browse the docume
 
 - Reduce the transfer size of the state / model. Would be cool to allow it to be dynamic, server "patchable" ...
 
-- Search box should search within summaries, titles, descriptions and content if available.
+- Search box should search within summaries, titles, descriptions and content when available.

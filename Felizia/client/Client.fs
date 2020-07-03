@@ -13,6 +13,13 @@ open Felizia
 open Felizia.Common
 
 module Client =
+    let init () : Model*Cmd<_> =
+        // was the page rendered server-side?
+        let stateJson: string option = !!Browser.Dom.window?__INIT_MODEL__
+        let model = Model.Dematerialize stateJson
+
+        model, Cmd.none
+
     let fetch<'a> (lang: string) (url: Url) (props: RequestProperties list) =
         promise {
             let init: RequestProperties list = List.append props [ requestHeaders [ Accept "application/json"; AcceptLanguage lang ] ]
@@ -91,4 +98,3 @@ module Client =
                 else segments
             model, Router.navigatePath(url |> Array.ofList)
 
-    

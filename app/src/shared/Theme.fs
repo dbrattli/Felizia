@@ -8,9 +8,4 @@ module Felizia.Theme
 open Felizia
 open Felizia.Arctic
 
-let theme = {
-    Name = "Felizia.Arctic"
-    Index = Partials.Index.index
-    Single = Partials.SingleView.singleView
-    List = Partials.ListView.listView
-}
+let theme = Felizia.Arctic.Theme.theme ()

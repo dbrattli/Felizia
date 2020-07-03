@@ -1,4 +1,4 @@
-module Felizia.Content
+module Felizia.Server
 
 open System
 open System.IO
@@ -12,8 +12,6 @@ open Microsoft.AspNetCore.Http
 open Felizia
 open Felizia.Common
 
-let htmlPath = Path.GetFullPath "../client/public/gen"
-
 /// Render output as JSON. Only Url with Content.
 let json (model: obj) : HttpHandler = fun next ctx ->
     match model with
@@ -25,8 +23,7 @@ let json (model: obj) : HttpHandler = fun next ctx ->
     | _ -> failwith "Missing model"
 
 /// Render output as HTML
-let html (templates: IRouter) (singlePage: View) (listPage: View) (model: obj) : HttpHandler = fun next ctx ->
-    let templates = ctx.GetService<IRouter>()
+let html (templates: IRouter) (theme: Theme) (model: obj) : HttpHandler = fun next ctx ->
     match model with
     | :? Model as model ->
         let currentPage = model.CurrentPage
@@ -47,8 +44,8 @@ let html (templates: IRouter) (singlePage: View) (listPage: View) (model: obj) :
             | false, _ ->
                 //Log.Debug "Did not find template for {url}, using defaults"
                 if currentPage.IsPage
-                then singlePage
-                else listPage
+                then theme.Single
+                else theme.List
 
         ctx.WriteHtmlStringAsync (template model ignore |> Render.htmlDocument)
     | _ -> ctx.WriteStringAsync "Not found"
@@ -74,6 +71,7 @@ let getLanguage (model: Model) (site: Site) (ctx: HttpContext) =
 let renderPaged (model: Model) (paginationPath: string) (pageNumber: int) (segments: string list): HttpHandler = fun next ctx ->
     let site = model.CurrentSite
     let language = getLanguage model site ctx
+    let config = ctx.GetService<FeliziaConfig>()
     let url, lang =
         if language = site.DefaultContentLanguage
         then segments, ""
@@ -81,7 +79,7 @@ let renderPaged (model: Model) (paginationPath: string) (pageNumber: int) (segme
 
     task {
         let fileName = "index.html"
-        let pathName = Path.Combine(htmlPath, Path.Combine(segments |> Array.ofList), fileName)
+        let pathName = Path.Combine(config.HtmlPath, Path.Combine(segments |> Array.ofList), fileName)
 
         let! html =
             if File.Exists pathName
@@ -112,7 +110,7 @@ let renderPaged (model: Model) (paginationPath: string) (pageNumber: int) (segme
 let renderPage (model: Model) (segments: string list): HttpHandler =
     renderPaged model "" 1 segments
 
-let felizia (model: Model) =
+let route (model: Model) =
     let sites = model.Sites
 
     let content site lang = choose [

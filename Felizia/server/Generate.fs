@@ -12,6 +12,14 @@ open Felizia
 open Felizia.Common
 open Felizia.Yaml
 
+type FeliziaConfig = {
+    ConfigPath: string
+    TemplatePath: string
+    HtmlPath: string
+    I18nPath: string
+    ContentPath: string
+}
+
 type FileInfo = {
     FileName: string
     FileNameWithoutLocale: string
@@ -21,23 +29,19 @@ type FileInfo = {
 }
 
 module Generate =
-    let adapt (page: Type) (method: string) (model: Model) (dispatch: Dispatch) =
-        let ret = page.GetMethod(method).Invoke(null, [| box model; box dispatch |])
-        ret :?> ReactElement
+    let getTheme (page: Type) : Theme =
+        let ret = page.GetMethod("theme").Invoke(null, [||])
+        ret :?> Theme
 
-    let theme (theme: string) (tmplPath: string) =
-        let ListPage = Type.GetType(sprintf "%s.Layouts.ListPage, %s" theme theme)
-        let SinglePage = Type.GetType(sprintf "%s.Layouts.SinglePage, %s" theme theme)
-        let Index = Type.GetType(sprintf "%s.Layouts.Index, %s" theme theme)
-        let tmpl = File.ReadAllText (Path.Join(tmplPath, "Theme.fs.tmpl"))
-        let themeFile = String.Format(tmpl, theme, theme)
-        do File.WriteAllText (Path.Join(tmplPath, "Theme.fs"), themeFile)
+    let theme (theme: string) (config: FeliziaConfig) =
+        let Theme = Type.GetType(sprintf "%s.Theme, %s" theme theme)
+        let theme = getTheme Theme
 
-        let singlePage = adapt SinglePage "singlePage"
-        let listPage = adapt ListPage "listPage"
-        let index = adapt Index "index"
+        let tmpl = File.ReadAllText (Path.Join(config.TemplatePath, "Theme.fs.tmpl"))
+        let themeFile = String.Format(tmpl, theme.Name, theme.Name)
+        do File.WriteAllText (Path.Join(config.TemplatePath, "Theme.fs"), themeFile)
 
-        { Name = theme; Index = index; Single = singlePage; List = listPage}
+        theme
 
 
     let generateHtml (site: Site) (root: string) (path: string) (files: FileInfo list) =
@@ -99,11 +103,11 @@ module Generate =
 
     /// Processes Markdown pages and generates cards.json and a corresponding html
     /// file for every markdown file
-    let rec processContent (contentPath: string) (genPath: string) (segments: string list) (site: Site) (locale: string) : Site =
+    let rec processContent (config: FeliziaConfig) (segments: string list) (site: Site) (locale: string) : Site =
         // Get all files in this folder
         let files =
             let pattern = "*.md"
-            System.IO.Directory.GetFiles(contentPath, pattern) |> List.ofArray
+            System.IO.Directory.GetFiles(config.ContentPath, pattern) |> List.ofArray
             |> List.map (fun file ->
                 let fileName = Path.GetFileName file
                 let nameWithoutExtension = Path.GetFileNameWithoutExtension fileName
@@ -119,13 +123,13 @@ module Generate =
 
         // Recursively get all sections in this folder.
         let sections : Page list =
-            let dirs = System.IO.Directory.GetDirectories(contentPath) |> List.ofArray
+            let dirs = System.IO.Directory.GetDirectories(config.ContentPath) |> List.ofArray
             dirs
             |> List.map (fun dir ->
                 let dirName = DirectoryInfo(dir).Name
-                let contentPath = Path.Combine (contentPath, dirName)
 
-                processContent contentPath genPath (dirName :: segments) site locale
+                let config = { config with ContentPath = Path.Combine (config.ContentPath, dirName) }
+                processContent config (dirName :: segments) site locale
                 |> (fun site -> site.Home)
             )
 
@@ -158,7 +162,7 @@ module Generate =
 
                 let summary = getSummary site' fileInfo.Content
                 let baseFileName = fileInfo.FileNameWithoutLocale
-                let file = { LogicalName=fileInfo.FileName; Path=contentPath; BaseFileName=baseFileName } |> Some
+                let file = { LogicalName=fileInfo.FileName; Path=config.ContentPath; BaseFileName=baseFileName } |> Some
                 let isPage = not (fileInfo.FileName.StartsWith "index." || fileInfo.FileName.StartsWith "_index.")
                 let weight = fileInfo.FrontMatter |> Option.bind (fun p -> p.Weight) |> Option.defaultValue 0
                 let title =
@@ -194,7 +198,7 @@ module Generate =
             |> List.filter (fun p -> p.Language.Lang = locale)
             |> List.sortBy (fun p -> p.Weight)
 
-        do generateHtml site genPath (Path.Join(segments |> Array.ofList)) files
+        do generateHtml site config.HtmlPath (Path.Join(segments |> Array.ofList)) files
 
         let sections', pages' =
             pages

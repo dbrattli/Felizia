@@ -5,11 +5,9 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Model.fs" />
-
     <Compile Include="Yaml.fs" />
     <Compile Include="Generate.fs" />
-    <Compile Include="Content.fs" />
+    <Compile Include="Server.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Felizia.fsproj" />

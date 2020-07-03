@@ -8,40 +8,42 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.FileProviders
 
-open FSharp.Core.Printf
 open Giraffe
 open Serilog
 open Serilog.Events
 
-open Feliz.ViewEngine
-
 open Felizia
-open Felizia.Common
 open Felizia.Generate
 open Felizia.Yaml
-open Felizia.Content
-open Felizia.Arctic
 
+let port = 8080us
+
+let config = {
+    TemplatePath = Path.GetFullPath "../shared/"
+    /// The path where HTML pages will be generated
+    HtmlPath = Path.GetFullPath "../client/public/gen"
+    /// The path to translation files
+    I18nPath = Path.GetFullPath "../../i18n/"
+    /// The path of config.yaml
+    ConfigPath = Path.GetFullPath "../../"
+    /// The path to site content files
+    ContentPath = Path.GetFullPath "../../content/"
+}
 
 let publicPath = Path.GetFullPath "../Client/public"
 let staticPath = Path.GetFullPath "../../static"
-let tmplPath = Path.GetFullPath "../shared/"
 
-let port = 8080us
-let configPath = Path.GetFullPath "../../"
-let i18nPath = Path.GetFullPath "../../i18n/"
-let markdownPath = Path.GetFullPath "../../content/"
 
 let sites =
-    parseSiteConfig configPath
+    parseSiteConfig config.ConfigPath
     // Split site from config into one site for every translation
     |> (fun site ->
         site.AllTranslations
         |> Seq.map (fun lang ->
-            let trans = parseI18n i18nPath lang.Lang
+            let trans = parseI18n config.I18nPath lang.Lang
             let site' = { site with I18n = trans }
 
-            processContent markdownPath htmlPath [] site' lang.Lang)
+            processContent config [] site' lang.Lang)
      )
      |> List.ofSeq
 
@@ -49,13 +51,13 @@ let model = { Model.Empty with Sites=sites }
 
 let webApp =
     choose [
-        Content.felizia model
+        Felizia.Server.route model
 
         //route "" >=> redirectTo false "/"
         RequestErrors.NOT_FOUND "Not Found"
     ]
 
-let theme = Generate.theme ((List.head sites).Theme) tmplPath
+let theme = Generate.theme ((List.head sites).Theme) config
 Log.Information("Using theme {theme}", theme.Name)
 
 type CustomNegotiationConfig (baseConfig : INegotiationConfig) =
@@ -64,9 +66,9 @@ type CustomNegotiationConfig (baseConfig : INegotiationConfig) =
         member __.UnacceptableHandler = baseConfig.UnacceptableHandler
         member __.Rules =
                 dict [
-                    "application/json", Content.json
-                    "text/html"       , (Content.html templates theme.Single theme.List)
-                    "*/*"             , (Content.html templates theme.Single theme.List)
+                    "application/json", Felizia.Server.json
+                    "text/html"       , (Felizia.Server.html templates theme)
+                    "*/*"             , (Felizia.Server.html templates theme)
                 ]
 
 let configureApp (app : IApplicationBuilder) =
@@ -89,7 +91,7 @@ let configureServices (services : IServiceCollection) =
         .AddGiraffe()
         .AddResponseCompression()
         .AddSingleton<INegotiationConfig>(CustomNegotiationConfig(DefaultNegotiationConfig()))
-        .AddSingleton<IRouter>(templates)
+        .AddSingleton<FeliziaConfig>(config)
         |> ignore
     ()
 

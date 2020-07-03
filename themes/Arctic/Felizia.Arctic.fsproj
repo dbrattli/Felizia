@@ -21,6 +21,7 @@
     <Compile Include="layouts/_defaults/SinglePage.fs" />
     <Compile Include="layouts/_defaults/ListPage.fs" />
     <Compile Include="layouts/Index.fs" />
+    <Compile Include="Theme.fs" />
 
   </ItemGroup>
   <ItemGroup>
