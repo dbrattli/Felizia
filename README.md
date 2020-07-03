@@ -135,3 +135,9 @@ Documentation is currently self-hosted. Run the application to browse the docume
 - Reduce the transfer size of the state / model. Would be cool to allow it to be dynamic, server "patchable" ...
 
 - Search box should search within summaries, titles, descriptions and content when available.
+
+## License
+
+## License
+
+MIT, see [LICENSE](https://github.com/dbrattli/Felizia/blob/master/LICENSE).

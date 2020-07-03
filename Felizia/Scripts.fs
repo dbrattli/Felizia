@@ -8,7 +8,7 @@ open Felizia
 module Scripts =
     /// Scripts and state to include in the bottom on the page.
     let scripts (model: Model) =
-        let jsonState = model.Materialize ()
+        let jsonState = model.Serialize ()
 
         Html.div [
             Html.script [ Html.rawText (sprintf "var __INIT_MODEL__ = %s" jsonState) ]

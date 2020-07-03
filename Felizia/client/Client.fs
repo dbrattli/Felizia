@@ -16,7 +16,7 @@ module Client =
     let init () : Model*Cmd<_> =
         // was the page rendered server-side?
         let stateJson: string option = !!Browser.Dom.window?__INIT_MODEL__
-        let model = Model.Dematerialize stateJson
+        let model = Model.Deserialize stateJson
 
         model, Cmd.none
 

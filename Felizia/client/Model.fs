@@ -19,8 +19,8 @@ type Theme = {
 module Extensions =
     type Model
     with
-        member this.Materialize () = String.Empty
-        static member Dematerialize (stateJson: string option) : Model =
+        member this.Serialize () = String.Empty
+        static member Deserialize (stateJson: string option) : Model =
             match stateJson with
             | Some json ->
                 let model =

@@ -3,6 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Library</OutputType>
+    <Version>0.1</Version>
+    <PackageVersion>0.1</PackageVersion>
+    <Authors>Dag Brattli</Authors>
+    <Company>Brattli Labs</Company>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageLicenseFile>../LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Yaml.fs" />
