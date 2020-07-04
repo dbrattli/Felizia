@@ -3,18 +3,24 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Library</OutputType>
-    <Version>0.1</Version>
-    <PackageVersion>0.1</PackageVersion>
+    <Version>0.1.0</Version>
     <Authors>Dag Brattli</Authors>
     <Company>Brattli Labs</Company>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageLicenseFile>../LICENSE</PackageLicenseFile>
+    <PackageLicenseFile>./LICENSE</PackageLicenseFile>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="Yaml.fs" />
     <Compile Include="Generate.fs" />
     <Compile Include="Server.fs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Felizia.fsproj" />
   </ItemGroup>

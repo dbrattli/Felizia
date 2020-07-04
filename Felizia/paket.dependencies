@@ -23,7 +23,7 @@ group Client
     nuget Feliz.Router
     nuget Fable.Fetch
 
-group Theme
+group Main
     source https://api.nuget.org/v3/index.json
     framework: netstandard2.1
     #storage: none
