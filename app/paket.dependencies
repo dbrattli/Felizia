@@ -16,6 +16,8 @@ group Server
     nuget Thoth.Json.Net ~> 4
     nuget Feliz.ViewEngine
     nuget Feliz.Bulma.ViewEngine
+    nuget Felizia.Server
+    nuget Felizia.Arctic
     nuget Giraffe
     nuget Giraffe.SerilogExtensions
     nuget Serilog.AspNetCore
@@ -43,6 +45,8 @@ group Client
     nuget Feliz ~> 1
     nuget Feliz.Bulma
     nuget Feliz.Router
+    nuget Felizia.Client
+    nuget Felizia.Arctic
 
 group Build
     source https://api.nuget.org/v3/index.json

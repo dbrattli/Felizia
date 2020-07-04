@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Library</OutputType>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Dag Brattli</Authors>
     <Company>Brattli Labs</Company>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -24,6 +24,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Felizia.fsproj" />
   </ItemGroup>
-
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

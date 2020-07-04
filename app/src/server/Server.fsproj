@@ -6,14 +6,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Version.fs" />
-
     <Compile Include="../shared/Routing.fs" />
-
     <Compile Include="Server.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Felizia\Server\Felizia.Server.fsproj" />
-    <ProjectReference Include="..\..\..\themes\Arctic\Felizia.Arctic.fsproj" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

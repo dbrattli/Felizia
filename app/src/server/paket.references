@@ -19,6 +19,8 @@ group Server
 
     Feliz.ViewEngine
     Feliz.Bulma.ViewEngine
+    Felizia.Server
+    Felizia.Arctic
 
     Legivel
 

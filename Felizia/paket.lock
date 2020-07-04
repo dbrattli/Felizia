@@ -72,7 +72,17 @@ NUGET
       Fable.Elmish (>= 3.0.5)
       Feliz (>= 1.0)
       FSharp.Core (>= 4.7)
+    Feliz.ViewEngine (0.22)
+      FSharp.Core (>= 4.7)
+    Felizia (0.2)
+      Feliz.ViewEngine (>= 0.22)
+      Thoth.Json.Net (>= 4.1)
     FSharp.Core (4.7.2)
+    Newtonsoft.Json (12.0.3)
+    Thoth.Json.Net (4.1)
+      Fable.Core (>= 3.0 < 4.0)
+      FSharp.Core (>= 4.6.2)
+      Newtonsoft.Json (>= 11.0.2)
 
 GROUP Server
 RESTRICTION: == netcoreapp3.1
@@ -82,6 +92,9 @@ NUGET
       FSharp.Core (>= 4.7)
     Feliz.ViewEngine (0.22)
       FSharp.Core (>= 4.7)
+    Felizia (0.2)
+      Feliz.ViewEngine (>= 0.22)
+      Thoth.Json.Net (>= 4.1)
     FSharp.Compiler.Service (36.0.3)
       FSharp.Core (>= 4.6.2)
       System.Buffers (>= 4.5)

@@ -12,6 +12,7 @@ group Server
     nuget FSharp.Literate
     nuget Legivel
     nuget Giraffe
+    nuget Felizia
 
 group Client
     source https://api.nuget.org/v3/index.json
@@ -22,6 +23,7 @@ group Client
     nuget Feliz ~> 1
     nuget Feliz.Router
     nuget Fable.Fetch
+    nuget Felizia
 
 group Main
     source https://api.nuget.org/v3/index.json
