@@ -1,6 +1,10 @@
 namespace Felizia.Partials
 
+#if FABLE_COMPILER
+open Feliz
+#else
 open Feliz.ViewEngine
+#endif
 
 open Felizia
 
@@ -13,7 +17,9 @@ module Scripts =
         Html.div [
             Html.script [ Html.rawText (sprintf "var __INIT_MODEL__ = %s" jsonState) ]
 
-            Html.script [ prop.src "/tips.js"; prop.defer true ]
+            if model.CurrentSite.Params.Literate then
+                Html.script [ prop.src "/tips.js"; prop.defer true ]
+
             Html.script [ prop.src (sprintf "/vendors.%s.js" model.Version); prop.defer true ]
             Html.script [ prop.src (sprintf "/app.%s.js" model.Version); prop.defer true ]
             Html.script [ prop.src (sprintf "/style.%s.js" model.Version); prop.async true ]

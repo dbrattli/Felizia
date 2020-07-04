@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <OutputType>Library</OutputType>    
+    <OutputType>Library</OutputType>
     <Version>0.1.0</Version>
     <Authors>Dag Brattli</Authors>
     <Company>Brattli Labs</Company>
@@ -15,7 +15,6 @@
     <Compile Include="Common.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="Model.fs" />
-    <Compile Include="Scripts.fs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".\LICENSE" Pack="true" Visible="false" PackagePath="" />

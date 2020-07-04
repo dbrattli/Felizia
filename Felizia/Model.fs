@@ -154,5 +154,5 @@ module Extensions =
             // string to a js string, so we can deseriallize it by Thoth auto decoder and get the correct types.
             Encode.Auto.toString(0, (Encode.Auto.toString(0, model)))
 #else
-            String.Emtpy
+            String.Empty
 #endif
