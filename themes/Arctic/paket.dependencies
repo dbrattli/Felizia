@@ -1,12 +1,23 @@
-source https://api.nuget.org/v3/index.json
+group Client
+    source https://api.nuget.org/v3/index.json
 
-framework: netstandard2.1
-#storage: none
+    framework: netstandard2.1
+    #storage: none
 
-nuget FSharp.Core 4.7
+    nuget FSharp.Core ~> 4.7
 
-nuget Feliz
-nuget Feliz.Bulma
-nuget Feliz.Bulma.ViewEngine
-nuget Feliz.ViewEngine
-nuget Felizia
+    nuget Feliz
+    nuget Feliz.Bulma
+    nuget Felizia >= 0.6
+
+group Server
+    source https://api.nuget.org/v3/index.json
+
+    framework: netcoreapp3.1
+    #storage: none
+
+    nuget FSharp.Core ~> 4.7
+
+    nuget Feliz.ViewEngine
+    nuget Feliz.Bulma.ViewEngine
+    nuget Felizia.ViewEngine >= 0.6

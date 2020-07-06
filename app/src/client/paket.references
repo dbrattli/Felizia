@@ -9,9 +9,7 @@ group Client
     Fable.Fetch
     Fable.SimpleJson
     Fable.FontAwesome.Free
-    Feliz
-    Feliz.Bulma
     Feliz.Router
-    Felizia.Client
+    Felizia
     Felizia.Arctic
 

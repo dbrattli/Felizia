@@ -1,9 +1,9 @@
 namespace Felizia
 
-open System
 open System.Collections.Generic
-open Feliz
+
 open Fable.SimpleJson
+open Feliz
 
 type View = Model -> Dispatch -> ReactElement
 type IRouter = IDictionary<Url, View>
@@ -15,11 +15,11 @@ type Theme = {
     List: View
 }
 
+/// Client extensions
 [<AutoOpen>]
 module Extensions =
     type Model
     with
-        member this.Serialize () = String.Empty
         static member Deserialize (stateJson: string option) : Model =
             match stateJson with
             | Some json ->

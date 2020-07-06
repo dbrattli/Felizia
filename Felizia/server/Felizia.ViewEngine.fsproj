@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Library</OutputType>
-    <Version>0.2.1</Version>
+    <Version>0.6.0</Version>
     <Authors>Dag Brattli</Authors>
     <Company>Brattli Labs</Company>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageLicenseFile>./LICENSE</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="../Common.fs" />
+    <Compile Include="../Types.fs" />
+    <Compile Include="../Model.fs" />
+
     <Compile Include="Model.fs" />
-    <Compile Include="Client.fs" />
+    <Compile Include="Yaml.fs" />
+    <Compile Include="Generate.fs" />
+    <Compile Include="Server.fs" />
   </ItemGroup>
+
   <ItemGroup>
     <None Include="..\LICENSE" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Felizia.fsproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="*.fsproj; *.fs" PackagePath="fable\" />
-  </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

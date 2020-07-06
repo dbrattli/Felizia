@@ -57,7 +57,8 @@ let webApp =
         RequestErrors.NOT_FOUND "Not Found"
     ]
 
-let theme = Generate.theme ((List.head sites).Theme) config
+let site = List.head sites // Any site will contain theme info
+let theme = Generate.theme site.Theme config
 Log.Information("Using theme {theme}", theme.Name)
 
 type CustomNegotiationConfig (baseConfig : INegotiationConfig) =

@@ -1,6 +1,5 @@
 group Server
     source https://api.nuget.org/v3/index.json
-    source https://ci.appveyor.com/nuget/fsharp-formatting
 
     framework: netcoreapp3.1
     #storage: none
@@ -14,20 +13,17 @@ group Server
 
     nuget Thoth.Json.Giraffe  ~> 2
     nuget Thoth.Json.Net ~> 4
-    nuget Feliz.ViewEngine
-    nuget Feliz.Bulma.ViewEngine
-    nuget Felizia.Server
-    nuget Felizia.Arctic
+    nuget Felizia.ViewEngine >= 0.6
+    nuget Felizia.Arctic.ViewEngine >= 0.6
     nuget Giraffe
     nuget Giraffe.SerilogExtensions
     nuget Serilog.AspNetCore
     nuget Serilog.Sinks.Console
     nuget Serilog.Sinks.ColoredConsole
-    nuget FSharp.Literate
-    nuget Legivel
 
 group Client
     source https://api.nuget.org/v3/index.json
+
     framework: netstandard2.1
     #storage: none
 
@@ -45,8 +41,8 @@ group Client
     nuget Feliz ~> 1
     nuget Feliz.Bulma
     nuget Feliz.Router
-    nuget Felizia.Client
-    nuget Felizia.Arctic
+    nuget Felizia >= 0.6
+    nuget Felizia.Arctic >= 0.7
 
 group Build
     source https://api.nuget.org/v3/index.json

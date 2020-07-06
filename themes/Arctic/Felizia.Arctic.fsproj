@@ -5,7 +5,7 @@
     <PackageId>Felizia.Arctic</PackageId>
     <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>Library</OutputType>
-    <Version>0.2.0</Version>
+    <Version>0.7.0</Version>
     <Authors>Dag Brattli</Authors>
     <Company>Brattli Labs</Company>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -13,9 +13,7 @@
     <IsPackable>true</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="layouts/partials/Scripts.fs" />
     <Compile Include="layouts/partials/Share.fs" />
-    <Compile Include="layouts/partials/Head.fs" />
     <Compile Include="layouts/partials/Footer.fs" />
     <Compile Include="layouts/partials/PaginationList.fs" />
     <Compile Include="layouts/partials/PaginationSingle.fs" />
@@ -27,19 +25,14 @@
     <Compile Include="layouts/partials/SingleView.fs" />
     <Compile Include="layouts/partials/ListView.fs" />
     <Compile Include="layouts/partials/Index.fs" />
-    <Compile Include="layouts/_defaults/SinglePage.fs" />
-    <Compile Include="layouts/_defaults/ListPage.fs" />
-    <Compile Include="layouts/Index.fs" />
     <Compile Include="Theme.fs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".\LICENSE" Pack="true" Visible="false" PackagePath="" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Felizia\Felizia.fsproj" />
+    <None Include="LICENSE" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="*.fsproj; *.fs" PackagePath="fable\" />
+    <Content Include="layouts\partials\*.fs" PackagePath="fable\layouts\partials\" />
   </ItemGroup>
   <Import Project=".paket\Paket.Restore.targets" />
 </Project>

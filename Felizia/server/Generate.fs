@@ -20,7 +20,7 @@ type FeliziaConfig = {
     ContentPath: string
 }
 
-type FileInfo = {
+type FileMeta = {
     FileName: string
     FileNameWithoutLocale: string
     Locale: string
@@ -34,7 +34,7 @@ module Generate =
         ret :?> Theme
 
     let theme (theme: string) (config: FeliziaConfig) =
-        let Theme = Type.GetType(sprintf "%s.Theme, %s" theme theme)
+        let Theme = Type.GetType(sprintf "%s.Theme, %s.ViewEngine" theme theme)
         let theme = getTheme Theme
 
         let tmpl = File.ReadAllText (Path.Join(config.TemplatePath, "Theme.fs.tmpl"))
@@ -43,8 +43,7 @@ module Generate =
 
         theme
 
-
-    let generateHtml (site: Site) (root: string) (path: string) (files: FileInfo list) =
+    let generateHtml (site: Site) (root: string) (path: string) (files: FileMeta list) =
         files |> List.iter (fun file ->
             //printfn "fileInfo: %A" (file.FileName, file.Locale)
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Description>Bulma Hero theme for Felizia.ViewEngine</Description>
+    <PackageId>Felizia.Arctic.ViewEngine</PackageId>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>Library</OutputType>
+    <Version>0.7.0</Version>
+    <Authors>Dag Brattli</Authors>
+    <Company>Brattli Labs</Company>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../layouts/partials/Scripts.fs" />
+    <Compile Include="../layouts/partials/Share.fs" />
+    <Compile Include="../layouts/partials/Head.fs" />
+    <Compile Include="../layouts/partials/Footer.fs" />
+    <Compile Include="../layouts/partials/PaginationList.fs" />
+    <Compile Include="../layouts/partials/PaginationSingle.fs" />
+    <Compile Include="../layouts/partials/Content.fs" />
+    <Compile Include="../layouts/partials/Navbar.fs" />
+    <Compile Include="../layouts/partials/NavbarHero.fs" />
+    <Compile Include="../layouts/partials/Card.fs" />
+    <Compile Include="../layouts/partials/Cards.fs" />
+    <Compile Include="../layouts/partials/SingleView.fs" />
+    <Compile Include="../layouts/partials/ListView.fs" />
+    <Compile Include="../layouts/partials/Index.fs" />
+    <Compile Include="../layouts/_defaults/SinglePage.fs" />
+    <Compile Include="../layouts/_defaults/ListPage.fs" />
+    <Compile Include="../layouts/Index.fs" />
+    <Compile Include="../Theme.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="*.fsproj; *.fs" PackagePath="fable\" />
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>

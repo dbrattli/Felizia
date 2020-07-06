@@ -3,11 +3,9 @@ namespace Felizia.Arctic.Partials
 #if FABLE_COMPILER
 open Feliz
 open Feliz.Bulma
-open Feliz.Bulma.Operators
 #else
 open Feliz.ViewEngine
 open Feliz.Bulma.ViewEngine
-open Feliz.Bulma.ViewEngine.Operators
 #endif
 
 open Felizia

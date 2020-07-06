@@ -17,10 +17,7 @@ group Server
     Serilog.Sinks.Console
     Serilog.Sinks.ColoredConsole
 
-    Feliz.ViewEngine
-    Feliz.Bulma.ViewEngine
-    Felizia.Server
-    Felizia.Arctic
+    Felizia.ViewEngine
+    Felizia.Arctic.ViewEngine
 
-    Legivel
 
