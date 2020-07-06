@@ -34,6 +34,36 @@ Felizia uses [Feliz](https://github.com/Zaid-Ajaj/Feliz) and
 - **Pagination**, both server and client side pagination.
 - **Themes**, themes are compiled as separate assemblies which makes it easy to share and change.
 
+## Installation
+
+Felizia is available as NuGet packages. To install:
+
+Using Package Manager:
+```sh
+Install-Package Felizia
+Install-Package Felizia.ViewEngine
+```
+
+Using .NET CLI:
+```sh
+dotnet add package Felizia
+dotnet add package Felizia.ViewEngine
+```
+
+In addition you will need to install a theme:
+
+Using Package Manager:
+```sh
+Install-Package Felizia.Arctic
+Install-Package Felizia.Arctic.ViewEngine
+```
+
+Using .NET CLI:
+```sh
+dotnet add package Felizia.Arctic
+dotnet add package Felizia.Arctic.ViewEngine
+```
+
 ## Install pre-requisites
 
 You'll need to install the following pre-requisites in order to build SAFE applications
@@ -46,9 +76,11 @@ You'll need to install the following pre-requisites in order to build SAFE appli
 
 ## Work with the application
 
-To concurrently run the server and the client components in watch mode use the following command:
+A demo application is available in the `app` folder. To concurrently run the server and the client components in watch
+mode use the following command:
 
 ```bash
+cd app
 fake build -t run
 ```
 
@@ -135,8 +167,6 @@ Documentation is currently self-hosted. Run the application to browse the docume
 - Reduce the transfer size of the state / model. Would be cool to allow it to be dynamic, server "patchable" ...
 
 - Search box should search within summaries, titles, descriptions and content when available.
-
-## License
 
 ## License
 
