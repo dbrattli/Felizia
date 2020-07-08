@@ -1,6 +1,6 @@
 #r "paket: groupref build //"
 #load "./.fake/build.fsx/intellisense.fsx"
-#load "./src/Server/Version.fs"
+#load "./src/server/Version.fs"
 
 #if !FAKE
 #r "netstandard"
