@@ -30,7 +30,7 @@ let config = {
     ContentPath = Path.GetFullPath "../../content/"
 }
 
-let publicPath = Path.GetFullPath "../Client/public"
+let publicPath = Path.GetFullPath "../client/public"
 let staticPath = Path.GetFullPath "../../static"
 
 
