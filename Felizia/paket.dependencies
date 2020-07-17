@@ -20,5 +20,5 @@ group Client
 
     nuget Fable.SimpleJson
     nuget Feliz ~> 1
-    nuget Feliz.Router
+    nuget Feliz.Router ~> 2
     nuget Fable.Fetch
