@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Felizia.Arctic", "client\Felizia.Arctic.fsproj", "{04028A48-D3AD-4791-A57A-1E31BD1EC8E5}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Felizia.Arctic", "Felizia.Arctic.fsproj", "{04028A48-D3AD-4791-A57A-1E31BD1EC8E5}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Felizia.Arctic.ViewEngine", "server\Felizia.Arctic.ViewEngine.fsproj", "{CBE43DEE-20D2-4CCA-8B51-76F99834A36E}"
 EndProject

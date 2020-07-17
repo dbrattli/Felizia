@@ -5,7 +5,7 @@
     <PackageId>Felizia.Arctic.ViewEngine</PackageId>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Library</OutputType>
-    <Version>0.7.0</Version>
+    <Version>0.8.0</Version>
     <Authors>Dag Brattli</Authors>
     <Company>Brattli Labs</Company>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

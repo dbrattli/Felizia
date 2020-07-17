@@ -14,7 +14,7 @@ group Server
     nuget Thoth.Json.Giraffe  ~> 2
     nuget Thoth.Json.Net ~> 4
     nuget Felizia.ViewEngine >= 0.6
-    nuget Felizia.Arctic.ViewEngine >= 0.6
+    nuget Felizia.Arctic.ViewEngine >= 0.8
     nuget Giraffe
     nuget Giraffe.SerilogExtensions
     nuget Serilog.AspNetCore
