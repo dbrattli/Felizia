@@ -13,6 +13,7 @@ open Felizia
 open Felizia.Common
 
 module Client =
+
     let init () : Model*Cmd<_> =
         // was the page rendered server-side?
         let stateJson: string option = !!Browser.Dom.window?__INIT_MODEL__
