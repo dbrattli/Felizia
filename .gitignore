@@ -6,7 +6,6 @@ bin/
 packages/
 paket-files/
 node_modules/
-src/client/public/js/
 release.cmd
 release.sh
 .idea/
@@ -16,7 +15,11 @@ deploy
 .editorconfig
 src/shared/markdown/activities/Images
 .DS_Store
-src/client/public/gen
 symbolCache.db
 .ionide/
+
 app/src/client/public/gen
+src/client/public/gen
+
+app/src/client/public/js
+src/client/public/js/
